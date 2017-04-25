@@ -1,0 +1,6 @@
+@value --desktopContainerWidth, --margin-hspace from 'ui/styles/dimensions';
+
+/* private values */
+@value __desktopMin: resolve(--desktopContainerWidth - --margin-hspace);
+
+@value --desktopStd: width > __desktopMin;

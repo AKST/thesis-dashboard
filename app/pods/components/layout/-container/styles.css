@@ -1,0 +1,12 @@
+@value --desktopContainerWidth from 'ui/styles/dimensions';
+@value --margin-hspace from 'ui/styles/dimensions';
+
+@value --desktopStd from 'ui/styles/media-query';
+
+.root {
+  @media (--desktopStd) {
+    margin: 0 auto;
+    max-width: --desktopContainerWidth;
+    padding: 0 --margin-hspace;
+  }
+}

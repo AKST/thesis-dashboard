@@ -1,0 +1,37 @@
+@after-module 'ui/styles/typography';
+
+@value --margin-hspace, --unit from 'ui/styles/dimensions';
+@value --fsize-text from 'ui/styles/typography';
+
+.root {
+  padding: --margin-hspace 0;
+}
+
+.container {
+  display: flex;
+  position: relative;
+  align-items: center;
+  height: resolve(--unit * 3);
+}
+
+.container-item {
+  width: 50%;
+}
+
+.title {
+  composes: container-item;
+  composes: base-header from 'ui/styles/typography';
+}
+
+.nav {
+  composes: container-item;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.link {
+  composes: base-link from 'ui/styles/typography';
+  & + & {
+    margin-right: --margin-hspace;
+  }
+}

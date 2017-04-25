@@ -1,0 +1,8 @@
+{{#layout/-container}}
+  <h2>Packages</h2>
+  <div>
+    {{#each model as |package|}}
+      {{#link-to "package.show" package.id}}{{package.name}}{{/link-to}}
+    {{/each}}
+  </div>
+{{/layout/-container}}

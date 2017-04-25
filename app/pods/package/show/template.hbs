@@ -1,0 +1,16 @@
+{{#layout/-container}}
+  <h2>{{model.name}}</h2>
+  <h3>Properties</h3>
+  <div>
+    {{#each properties as |propDest|}}
+      <div>
+        <strong>{{propDest.label}}:</strong>
+        <em>{{get model propDest.key}}</em>
+      </div>
+    {{/each}}
+  </div>
+  <p>
+    <a href={{model.webUrl}}>View on github</a>
+  </p>
+  {{outlet}}
+{{/layout/-container}}

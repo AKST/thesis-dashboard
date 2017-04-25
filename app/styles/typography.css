@@ -1,0 +1,58 @@
+@value --margin-vspace, --border-width from 'ui/styles/dimensions';
+
+@value --base-black from 'ui/styles/colors';
+
+@value --ff-default: Helvetica, sans-serif;
+@value --ff-header: Menlo, monospace;
+
+@value --fsize-text: 1rem;
+@value --fsize-header: 1.5rem;
+
+.base-text {
+  --typography-text-color: --base-black;
+  font-family: --ff-default;
+  font-size: --fsize-text;
+  line-height: 1;
+  margin: 0;
+  color: var(--typography-text-color);
+}
+
+.text-underline {
+  &::after {
+    position: absolute;
+    display: block;
+    content: ' ';
+    height: --border-width;
+    width: 100%;
+    bottom: resolve(-2 * --border-width);
+    left: 0;
+    background-color: var(--typography-text-color);
+  }
+}
+
+.base-link {
+  composes: base-text;
+  font-family: --ff-header;
+  font-weight: 700;
+  text-decoration: none;
+  position: relative;
+  composes: text-underline;
+
+  &::after {
+    opacity: 0;
+  }
+  &:hover::after {
+    opacity: 1;
+  }
+}
+
+.base-header {
+  composes: base-text;
+  font-family: --ff-header;
+  font-size: --fsize-header;
+  font-weight: 300;
+  margin: 0;
+  & + .base-header {
+    padding-top: --margin-vspace;
+  }
+}
