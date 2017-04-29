@@ -1,16 +1,16 @@
-<defs>
-  <g>
-    <circle id={{_lc.id}} r={{_circleR}} cx={{_lc.x}} cy={{_yCenter}} stroke-width={{_circleStroke}} />
-    <circle id={{_rc.id}} r={{_circleR}} cx={{_rc.x}} cy={{_yCenter}} stroke-width={{_circleStroke}} />
-  </g>
-  <mask id={{_mask.id}} maskUnits="userSpaceOnUse" width={{_actualWidth}} height={{_actualHeight}} x="0" y="0">
-    <rect x="0" y="0" width={{_actualWidth}} height={{_actualHeight}} fill="white"/>
-    <use xlink:href={{_lc.ref}} fill="black"/>
-    <use xlink:href={{_rc.ref}} fill="black"/>
-  </mask>
-</defs>
-<path local-class="inner" mask={{_mask.ref}} d={{innerD}} />
-<path local-class="outer" mask={{_mask.ref}} d={{outerD}} />
-<use xlink:href={{_lc.ref}} local-class="circle" {{action "mouseTargetL"}}/>
-<use xlink:href={{_rc.ref}} local-class="circle" {{action "mouseTargetR"}}/>
+<svg local-class="svg_root" xmlns="http://www.w3.org/2000/svg" viewBox={{_viewBox}}>
+  <defs>
+    <mask id={{_mask.id}} maskUnits="userSpaceOnUse" width={{_actualWidth}} height={{_actualHeight}} x="0" y="0">
+      <rect x="0" y="0" width={{_actualWidth}} height={{_actualHeight}} fill="white"/>
+      <circle r={{_circleR}} cx={{_a.x}} cy={{_yCenter}} stroke-width={{_circleStroke}} fill="black"/>
+      <circle r={{_circleR}} cx={{_b.x}} cy={{_yCenter}} stroke-width={{_circleStroke}} fill="black"/>
+    </mask>
+  </defs>
+  <path local-class="inner" mask={{_mask.ref}} d={{_innerD}} />
+  <path local-class="outer" mask={{_mask.ref}} d={{_outerD}} />
+  <circle local-class="circle" r={{_circleR}} cx={{_a.x}} cy={{_yCenter}}
+    stroke-width={{_circleStroke}} data-circle="a" />
+  <circle local-class="circle" r={{_circleR}} cx={{_b.x}} cy={{_yCenter}}
+    stroke-width={{_circleStroke}} data-circle="b" />
+</svg>
 

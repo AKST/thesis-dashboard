@@ -3,6 +3,11 @@
 .root {
   width: 100%;
   height: 2rem;
+}
+
+.svg_root {
+  width: 100%;
+  height: 100%;
   box-sizing: border-box;
   pointer-events: all;
   user-select: none;
@@ -11,6 +16,7 @@
 .circle {
   fill: transparent;
   stroke: --base-black;
+  pointer-events: all;
   cursor: move;
 }
 
@@ -20,7 +26,7 @@
 
 .inner {
   composes: stroke;
-  stroke-width: 6px;
+  stroke-width: 4px;
 }
 
 .outer {

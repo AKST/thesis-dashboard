@@ -19,6 +19,9 @@ export default Ember.Controller.extend({
   scriptHash: null,
   fileExtension: 'hi',
 
+  filteredSize: null,
+  filteredTime: null,
+
   _results: Ember.computed('model.results', function onResults () {
     const items = this.get('model.results')
     const x = { source: 'fileSize', description: 'File Size (bytes)' }
@@ -47,11 +50,13 @@ export default Ember.Controller.extend({
   }),
 
   sizeRange: Ember.computed('_results', function () {
-    return this.get('_results')
+    const onChange = update => this.set('filteredSize', update)
+    return { range: this.get('_results').bounds.x, onChange }
   }),
 
   timeRange: Ember.computed('_results', function () {
-    return this.get('_results')
+    const onChange = update => this.set('filteredTime', update)
+    return { range: this.get('_results').bounds.y, onChange }
   }),
 
   controlConfig: Ember.computed('scriptSelect', 'fileTypeSelect', 'sizeRange', 'timeRange', function () {

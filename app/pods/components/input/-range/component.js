@@ -1,23 +1,31 @@
-import _uuid from 'npm:uuid'
+import uuid from 'npm:uuid'
 import Ember from 'ember'
+import styles from './styles'
 
+import { checkKeyThenConf } from 'ui/utils/init'
 import { elementWidth, elementHeight } from 'ui/utils/dom'
 
-const { default: uuid } = _uuid
-const initCircleState = (percent, id = uuid()) =>
+const initCircleState = (percent, id) =>
   Ember.Object.create({ percent, id, x: 0, ref: `#${id}` })
 
 const Component = Ember.Component.extend({
-  attributeBindings: ['_viewBox:viewBox'],
   localClassNames: ['root'],
-  tagName: 'svg',
 
   onChange: null,
+  config: null,
   range: null,
 
+  _range: Ember.computed('range', 'config.range', function () {
+    return checkKeyThenConf(this, 'range', null)
+  }),
+
+  _onChange: Ember.computed('onChange', 'config.onChange', function () {
+    return checkKeyThenConf(this, 'onChange', null)
+  }),
+
   _viewBox: '0 0 100 100',
-  _lc: null,
-  _rc: null,
+  _a: null,
+  _b: null,
   _mask: null,
   _yCenter: 0,
   _innerD: 'M0 0',
@@ -30,36 +38,43 @@ const Component = Ember.Component.extend({
   didInsertElement (...args) {
     this._super(...args)
     const el = this.get('element')
+    const aId = uuid()
+    const bId = uuid()
     const maskId = uuid()
     this.set('_mask', { ref: `url(#${maskId})`, id: maskId })
-    this.set('_lc', initCircleState(0))
-    this.set('_rc', initCircleState(1))
+    this.set('_a', initCircleState(0, aId))
+    this.set('_b', initCircleState(1, bId))
     this.set('_actualHeight', elementHeight(el))
     this.set('_actualWidth', elementWidth(el))
     this.calculateDimensions()
+
+    for (const el of this.element.getElementsByClassName(styles.circle)) {
+      const id = el.dataset.circle === 'a' ? '_a' : '_b'
+      el.addEventListener('mousedown', event => this.mouseTarget(id, event))
+    }
   },
 
   calculateDimensions () {
     const actualWidth = this.get('_actualWidth')
     const actualHeight = this.get('_actualHeight')
+    const y = actualHeight / 2
     const circleR = actualHeight * (2 / 9)
+
     this.set('_viewBox', `0 0 ${actualWidth} ${actualHeight}`)
-    this.set('_yCenter', actualHeight / 2)
+    this.set('_yCenter', y)
     this.set('_circleR', circleR)
 
-    for (const circleId of ['_lc', '_rc']) {
+    for (const circleId of ['_a', '_b']) {
       const circle = this.get(circleId)
       const percent = circle.get('percent')
       const cRadius = this.get('circleRadiusWithStroke')
-      circle.set('x', cRadius + ((actualWidth - (cRadius * 2)) * percent))
+      const x = cRadius + ((actualWidth - (cRadius * 2)) * percent)
+      circle.set('x', x)
     }
-
-    const y = actualHeight / 2
 
     // calc outer path
     const odx = actualWidth - (circleR * 2)
     this.set('_outerD', `M${circleR} ${y} H ${odx}`)
-
     this.positionInnerPath()
   },
 
@@ -70,10 +85,10 @@ const Component = Ember.Component.extend({
   },
 
   orderCircles () {
-    const l = this.get('_lc')
-    const r = this.get('_rc')
-    if (l.get('x') < r.get('x')) return { min: l, max: r }
-    else return { min: r, max: l }
+    const a = this.get('_a')
+    const b = this.get('_b')
+    if (a.get('x') < b.get('x')) return { min: a, max: b }
+    else return { min: b, max: a }
   },
 
   circleRadiusWithStroke: Ember.computed('_circleR', '_circleStroke', function () {
@@ -82,7 +97,6 @@ const Component = Ember.Component.extend({
 
   mouseTarget (circleId, originalEvent) {
     const element = this.get('element')
-
     const handler = this.redrawSlider(circleId, originalEvent)
     const finish = () => {
       element.removeEventListener('mousemove', handler)
@@ -113,22 +127,12 @@ const Component = Ember.Component.extend({
       this.positionInnerPath()
 
       const { min, max } = this.orderCircles()
-      const range = this.get('range')
-      this.onChange(
+      const range = this.get('_range')
+      this.get('_onChange')(
         range.intersectPercentage(
           min.get('percent'),
           max.get('percent')))
     }
-  },
-
-  actions: {
-    mouseTargetL (event) {
-      this.mouseTarget('_lc', event)
-    },
-
-    mouseTargetR (event) {
-      this.mouseTarget('_rc', event)
-    },
   },
 });
 

@@ -2,15 +2,7 @@ import get from 'ember-metal/get'
 import Ember from 'ember'
 import styles from './styles'
 
-const checkKeyThenConf = (self, fieldKey, otherwise=null) => {
-  const { [fieldKey]: field, config } = self.getProperties('config', fieldKey)
-  if (field != null) return field;
-
-  const conField = config ? get(config, fieldKey) : null
-  if (conField != null) return conField
-
-  return otherwise
-};
+import { checkKeyThenConf } from 'ui/utils/init'
 
 const Component = Ember.Component.extend({
   localClassNames: ['root'],

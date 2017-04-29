@@ -1,8 +1,8 @@
 {{yield (hash
   control-row=(component "layout/-graph-controls/row" (hash
     label=(component "layout/-graph-controls/label-block" label-class=styles.label class=styles.label-block)
-    timeRange=(component "input/-range" config.timeRange class=styles.time)
-    sizeRange=(component "input/-range" config.sizeRange class=styles.size)
+    timeRange=(component "input/-range" config.time class=styles.time)
+    sizeRange=(component "input/-range" config.size class=styles.size)
     fileTypes=(component "input/-drop-down" config.fileType class=styles.drop-down)
     scripts=(component "input/-drop-down" config.script class=styles.drop-down))
       class=styles.row)

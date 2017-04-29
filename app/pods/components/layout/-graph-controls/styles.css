@@ -4,7 +4,7 @@
 
 .item {
   & + .item {
-    margin-left: --unit;
+    padding-left: --unit;
   }
 }
 
@@ -22,6 +22,7 @@
   flex-direction: row;
   padding: --unit 0;
   width: 100%;
+  max-width: 100%;
 }
 
 .drop-down {
@@ -30,11 +31,13 @@
 }
 
 .range {
+  box-sizing: border-box;
   composes: item;
   width: 100%;
 }
 
 .label-block {
+  composes: base-text from 'ui/styles/typography';
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -43,11 +46,11 @@
   align-items: center;
   composes: item;
   width: 100%;
+  max-width: 50%;
   max-height: calc(2rem + (--border-width * 2));
 }
 
 .label {
-  composes: base-text from 'ui/styles/typography';
   font-weight: 700;
   box-sizing: border-box;
   margin-right: --unit;
