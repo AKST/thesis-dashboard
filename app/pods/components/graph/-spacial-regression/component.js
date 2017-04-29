@@ -114,7 +114,7 @@ export default Ember.Component.extend({
         .attr('cy', item => yScale(item.y))
         .attr('class', styles.data_point)
         .attr('r', circleRadius)
-        .on('mouseover', d => this._selectNode(d))
+        .on('mouseover', d => this.get('_selectNode')(d))
 
     const xTitleX = (width / 2) + (margin * 1.5)
     const xTitleY = height + (margin * 1.75)

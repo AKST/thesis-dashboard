@@ -1,6 +1,6 @@
 import get from 'ember-metal/get'
 
-class Bound {
+class Range {
   constructor (field, description) {
     this.min = Infinity
     this.max = -Infinity
@@ -15,6 +15,13 @@ class Bound {
     return next
   }
 
+  intersectPercentage (min, max) {
+    const copy = new Range(this._field, this.description)
+    copy.min = this.min + (this.difference * min)
+    copy.max = this.max + (this.difference * max)
+    return copy
+  }
+
   get difference () {
     return this.max - this.min
   }
@@ -24,8 +31,8 @@ class Bound {
 export function calculatePoints(sourceData, xConf, yConf, ranker, group) {
   const entries = [];
   const lines = {};
-  const x = new Bound(xConf.source, xConf.description);
-  const y = new Bound(yConf.source, yConf.description);
+  const x = new Range(xConf.source, xConf.description);
+  const y = new Range(yConf.source, yConf.description);
 
   function addToLine (item, source) {
     const id = group(source)

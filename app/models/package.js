@@ -1,4 +1,4 @@
-import DS from 'ember-data';
+import DS from 'ember-data'
 
 const { attr, Model } = DS
 const PROJECT_PATH_REGEX = /^git@github.com:(.*).git$/

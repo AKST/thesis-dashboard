@@ -3,6 +3,10 @@
     {{#row.label text="File Type"}}{{row.fileTypes}}{{/row.label}}
     {{#row.label text="Script Hash"}}{{row.scripts}}{{/row.label}}
   {{/layout.control-row}}
+  {{#layout.control-row as |row|}}
+    {{#row.label text="Time"}}{{row.timeRange}}{{/row.label}}
+    {{#row.label text="Size"}}{{row.sizeRange}}{{/row.label}}
+  {{/layout.control-row}}
 {{/layout/-graph-controls}}
 
 {{graph/-spacial-regression local-class="graph"
@@ -12,7 +16,8 @@
 
 <div local-class="meta">
   <p local-class='description'>
-    <strong>scripts tags:</strong> <em>{{format-tags currentScript.tags}}</em>
+    <strong>Tags:</strong>
+    <em>{{format-tags currentScript.tags item-class=classes.tag}}</em>
   </p>
   {{#link-to 'script.show' currentScript.id local-class="script-link"}}
     View Script

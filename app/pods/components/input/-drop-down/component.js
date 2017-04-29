@@ -25,7 +25,7 @@ const Component = Ember.Component.extend({
   _selected: null,
 
   init (...args) {
-    this._super(args);
+    this._super(...args);
     const initial = get(this, 'config.initial') || get(this, 'initial')
     if (initial != null) {
       this.set('_selected', initial)
@@ -47,12 +47,12 @@ const Component = Ember.Component.extend({
     return checkKeyThenConf(this, 'description', 'Select a value')
   }),
 
-  mouseEnter (...args) {
+  mouseEnter () {
     const [options] = this.element.getElementsByClassName(styles.options);
     options.classList.add(styles['options--visible']);
   },
 
-  mouseLeave (...args) {
+  mouseLeave () {
     const [options] = this.element.getElementsByClassName(styles.options);
     options.classList.remove(styles['options--visible']);
   },

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Ember from 'ember'
 
 export function formatTags ([tags = []], options) {
   const { ['item-class']: itClass } = options

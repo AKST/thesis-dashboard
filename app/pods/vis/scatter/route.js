@@ -9,14 +9,12 @@ export default Route.extend({
     scriptHash: { refreshModel: true },
   },
 
-  beforeModel (transition) {
-    if (this.get('controller.scriptHash') != null) return
-    const parent = this.modelFor('vis')
-    const scriptHash = parent.scripts.objectAt(0).get('id')
-    return this.transitionTo({ queryParams: { scriptHash } })
-  },
-
   model ({ fileExtension, scriptHash }) {
+    if (scriptHash == null) {
+      const parent = this.modelFor('vis')
+      const scriptHash = parent.scripts.objectAt(0).get('id')
+      return this.transitionTo({ queryParams: { scriptHash } })
+    }
     const parent = this.modelFor('vis')
     const results = this.store.query('result', { fileExtension, scriptHash })
     return results.then(results => Object.assign({}, parent, { results }))

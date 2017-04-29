@@ -1,4 +1,5 @@
 @value --ff-mono from 'ui/styles/typography';
+@value --border-width from 'ui/styles/dimensions';
 @value --unit from 'ui/styles/dimensions';
 
 .item {
@@ -25,11 +26,16 @@
 
 .drop-down {
   composes: item;
-  flex-shirk: 2;
+  width: 100%;
+}
+
+.range {
+  composes: item;
   width: 100%;
 }
 
 .label-block {
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
@@ -37,6 +43,7 @@
   align-items: center;
   composes: item;
   width: 100%;
+  max-height: calc(2rem + (--border-width * 2));
 }
 
 .label {

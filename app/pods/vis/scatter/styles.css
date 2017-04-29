@@ -5,7 +5,7 @@
 @value --ff-mono from 'ui/styles/typography';
 
 .graph {
-  min-height: 500px
+  min-height: 450px
 }
 
 .meta {
@@ -25,4 +25,11 @@
 .script-link {
   composes: base-link from 'ui/styles/typography';
   font-weight: 900;
+}
+
+.tag {
+  padding-left: --unit;
+  &::before {
+    content: '#';
+  }
 }

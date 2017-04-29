@@ -1,8 +1,9 @@
-import Ember from 'ember';
-import get from 'ember-metal/get';
+import Ember from 'ember'
+import styles from './styles'
+import get from 'ember-metal/get'
 
 import { rankSemver } from 'ui/utils/semver'
-import { calculatePoints } from 'ui/utils/math'
+import { calculatePoints } from 'ui/utils/graph-prep'
 
 const toOptions = (labelKey, valueKey) => (item) => {
   const value = get(item, valueKey)
@@ -12,6 +13,8 @@ const toOptions = (labelKey, valueKey) => (item) => {
 
 export default Ember.Controller.extend({
   queryParams: ['fileExtension', 'scriptHash'],
+
+  classes: styles,
 
   scriptHash: null,
   fileExtension: 'hi',
@@ -31,7 +34,7 @@ export default Ember.Controller.extend({
       .map(toOptions('lastModified', 'id'));
     const update = ({ value }) => this.set('scriptHash', value)
     const description = 'Select a script';
-    const initial = options[0]
+    const initial = options.findBy('value', this.get('scriptHash'))
     return { options, update, description, initial };
   }),
 
@@ -43,12 +46,21 @@ export default Ember.Controller.extend({
     return { options, update, description, initial };
   }),
 
-  controlConfig: Ember.computed('scriptSelect', 'fileTypeSelect', function () {
-    const script = this.get('scriptSelect');
-    const fileType = this.get('fileTypeSelect');
-    return { script, fileType }
+  sizeRange: Ember.computed('_results', function () {
+    return this.get('_results')
   }),
 
+  timeRange: Ember.computed('_results', function () {
+    return this.get('_results')
+  }),
+
+  controlConfig: Ember.computed('scriptSelect', 'fileTypeSelect', 'sizeRange', 'timeRange', function () {
+    const script = this.get('scriptSelect');
+    const fileType = this.get('fileTypeSelect');
+    const size = this.get('sizeRange');
+    const time = this.get('timeRange');
+    return { script, fileType, size, time }
+  }),
 
   currentScript: Ember.computed('scriptHash', function () {
     const scriptHash = this.get('scriptHash')
