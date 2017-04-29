@@ -59,8 +59,9 @@ const Component = Ember.Component.extend({
 
   actions: {
     update (option) {
-      this.set('_selected', option);
-    }
+      this.set('_selected', option)
+      this.get('_update')(option)
+    },
   },
 })
 
