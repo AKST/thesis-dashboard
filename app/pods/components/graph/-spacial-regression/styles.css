@@ -1,0 +1,38 @@
+@value --ff-mono from 'ui/styles/typography';
+
+@value --base-black from 'ui/styles/colors';
+
+@value margin: 50px;
+
+.root {
+  width: 100%;
+}
+
+.svg_root {
+
+}
+
+.main {
+
+}
+
+.x_axis {
+
+}
+
+.y_axis {
+
+}
+
+.data_point {
+
+}
+
+.axis_label {
+  composes: base-text from 'ui/styles/typography';
+  font-family: --ff-mono;
+}
+
+.line {
+  stroke: color(--base-black alpha(50%));
+}

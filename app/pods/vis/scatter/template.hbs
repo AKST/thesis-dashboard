@@ -1,6 +1,20 @@
 {{#layout/-graph-controls config=controlConfig local-class="panel" as |layout|}}
   {{#layout.control-row as |row|}}
-    {{row.scripts}} {{row.fileTypes}}
+    {{#row.label text="File Type"}}{{row.fileTypes}}{{/row.label}}
+    {{#row.label text="Script Hash"}}{{row.scripts}}{{/row.label}}
   {{/layout.control-row}}
-  {{graph/-spacial-regression bounds=bounds}}
 {{/layout/-graph-controls}}
+
+{{graph/-spacial-regression local-class="graph"
+    lines=_results.lines
+    bounds=_results.bounds
+    entries=_results.entries}}
+
+<div local-class="meta">
+  <p local-class='description'>
+    <strong>scripts tags:</strong> <em>{{format-tags currentScript.tags}}</em>
+  </p>
+  {{#link-to 'script.show' currentScript.id local-class="script-link"}}
+    View Script
+  {{/link-to}}
+</div>

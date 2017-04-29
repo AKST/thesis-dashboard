@@ -1,1 +1,28 @@
+@value --border-width from 'ui/styles/dimensions';
+@value --unit from 'ui/styles/dimensions';
 
+@value --base-black from 'ui/styles/colors';
+@value --ff-mono from 'ui/styles/typography';
+
+.graph {
+  min-height: 500px
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  font-family: --ff-mono;
+  padding-top: --unit;
+  border-top: --border-width --base-black solid;
+}
+
+.description {
+  composes: base-text from 'ui/styles/typography';
+  margin: 0;
+}
+
+.script-link {
+  composes: base-link from 'ui/styles/typography';
+  font-weight: 900;
+}

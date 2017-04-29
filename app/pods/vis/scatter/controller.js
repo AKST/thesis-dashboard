@@ -1,6 +1,8 @@
 import Ember from 'ember';
 import get from 'ember-metal/get';
-import { getBounds } from 'ui/models/result'
+
+import { rankSemver } from 'ui/utils/semver'
+import { calculatePoints } from 'ui/utils/math'
 
 const toOptions = (labelKey, valueKey) => (item) => {
   const value = get(item, valueKey)
@@ -8,15 +10,19 @@ const toOptions = (labelKey, valueKey) => (item) => {
   return { value, label }
 }
 
-
 export default Ember.Controller.extend({
   queryParams: ['fileExtension', 'scriptHash'],
 
   scriptHash: null,
   fileExtension: 'hi',
 
-  bounds: Ember.computed('model.results', function () {
-    return getBounds(this.get('model.results'))
+  _results: Ember.computed('model.results', function onResults () {
+    const items = this.get('model.results')
+    const x = { source: 'fileSize', description: 'File Size (bytes)' }
+    const y = { source: 'averageTime', description: 'Average Time (seconds)' }
+    const rank = it => rankSemver(get(it, 'ghcVersion'))
+    const grouping = it => it.belongsTo('package').id()
+    return calculatePoints(items, x, y, rank, grouping)
   }),
 
   scriptSelect: Ember.computed('model.scripts', function () {
@@ -41,5 +47,12 @@ export default Ember.Controller.extend({
     const script = this.get('scriptSelect');
     const fileType = this.get('fileTypeSelect');
     return { script, fileType }
+  }),
+
+
+  currentScript: Ember.computed('scriptHash', function () {
+    const scriptHash = this.get('scriptHash')
+    const scripts = this.get('model.scripts')
+    return scripts.findBy('id', scriptHash)
   }),
 });
