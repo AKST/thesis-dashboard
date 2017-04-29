@@ -1,0 +1,15 @@
+{{#layout/-container local-class="container"}}
+  <h2 local-class="title">Script: <span local-class="hash">{{model.id}}</span></h2>
+  {{#if model.tags}}
+    <div local-class="tags">
+      {{#each model.tags as |tag|}}
+        <div local-class="tag">{{tag}}</div>
+      {{/each}}
+    </div>
+  {{/if}}
+  <pre local-class="repr">{{model.repr}}</pre>
+  <div local-class="meta">
+    <div local-class="meta-pair">md5, <span local-class="meta-value">{{model.id}}</span></div>
+    <div local-class="meta-pair">Last modified, <span local-class="meta-value">{{model.lastModified}}</span></div>
+  </div>
+{{/layout/-container}}

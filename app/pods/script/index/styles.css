@@ -1,0 +1,46 @@
+@value --base-white, --base-black from 'ui/styles/colors';
+
+.page-header {
+  composes: base-subheader from 'ui/styles/typography';
+}
+
+.list {
+  composes: base-list from 'ui/styles/layout';
+  position: relative;
+}
+
+.list-item {
+  composes: base-text from 'ui/styles/typography';
+  composes: base-list-it from 'ui/styles/layout';
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  --typography-text-color: --base-black;
+  &:hover {
+    background-color: --base-black;
+    --typography-text-color: --base-white;
+  }
+}
+
+.list-item-tags {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  min-height: 1rem;
+  & :global(.tag-item) {
+    font-size: small;
+    &::before {
+      content: '#';
+    }
+    & + :global(.tag-item) {
+      padding-left: 1em;
+    }
+  }
+}
+
+
+.list-item-text {
+  composes: text-underline from 'ui/styles/typography';
+}

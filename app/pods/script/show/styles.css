@@ -1,0 +1,68 @@
+@value --margin-hspace from 'ui/styles/dimensions';
+@value --margin-vspace from 'ui/styles/dimensions';
+@value --border-width from 'ui/styles/dimensions';
+
+@value --base-black from 'ui/styles/colors';
+@value --base-white from 'ui/styles/colors';
+
+@value --fweight-strong from 'ui/styles/typography';
+@value --ff-mono from 'ui/styles/typography';
+
+
+.title {
+  composes: base-subheader from 'ui/styles/typography';
+}
+
+.invert-colors {
+  background: --base-black;
+  color: --base-white;
+}
+
+@value repr-hpad: resolve(2 * --margin-hspace);
+
+.repr {
+  composes: invert-colors;
+  box-sizing: border-box;
+  margin: --margin-vspace 0 0;
+  border: repr-hpad --base-black solid;
+  overflow-x: scroll;
+  max-width: calc(100% - repr-hpad);
+  max-height: 60vh;
+  line-height: 1;
+}
+
+.hash, .meta-value {
+  font-family: --ff-mono;
+  font-weight: --fweight-strong;
+}
+
+.tags {
+  display: flex;
+  padding: --margin-vspace 0 0;
+}
+
+.tag {
+  composes: base-text from 'ui/styles/typography';
+  composes: invert-colors;
+  font-family: --ff-mono;
+  padding: resolve(--margin-vspace / 4) resolve(--margin-hspace / 2);
+
+  &::before {
+    content: '#';
+  }
+
+  & + & {
+    margin-left: --margin-hspace;
+  }
+}
+
+.meta {
+  padding: --margin-vspace 0;
+}
+
+.meta-pair {
+  composes: base-text from 'ui/styles/typography';
+  & + & {
+    padding: resolve(--margin-vspace / 2) 0;
+  }
+}

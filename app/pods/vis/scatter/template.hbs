@@ -1,0 +1,6 @@
+{{#layout/-graph-controls config=controlConfig local-class="panel" as |layout|}}
+  {{#layout.control-row as |row|}}
+    {{row.scripts}} {{row.fileTypes}}
+  {{/layout.control-row}}
+  {{graph/-spacial-regression bounds=bounds}}
+{{/layout/-graph-controls}}

@@ -1,5 +1,7 @@
 {{#layout/-container local-class="container"}}
-  <h1 local-class="title">Thesis</h1>
+  {{#link-to "index" local-class="title"}}
+    <span local-class="title-text">Thesis</span>
+  {{/link-to}}
   <div local-class="nav">
     {{#each links as |link|}}
       {{#link-to link.route local-class="link"}}{{link.label}}{{/link-to}}

@@ -1,3 +1,0 @@
-.page-header {
-  composes: base-header from 'ui/styles/typography';
-}

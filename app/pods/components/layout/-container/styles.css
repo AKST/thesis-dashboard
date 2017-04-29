@@ -4,6 +4,7 @@
 @value --desktopStd from 'ui/styles/media-query';
 
 .root {
+  position: relative;
   @media (--desktopStd) {
     margin: 0 auto;
     max-width: --desktopContainerWidth;

@@ -1,0 +1,28 @@
+@value --unit from 'ui/styles/dimensions';
+
+.item {
+  & + .item {
+    margin-left: --unit;
+  }
+}
+
+.root {
+  composes: base-text from 'ui/styles/typography';
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.row {
+  composes: base-text from 'ui/styles/typography';
+  display: flex;
+  flex-direction: row;
+  padding: --unit 0;
+  width: 100%;
+}
+
+.drop-down {
+  composes: item;
+  width: 100%;
+}

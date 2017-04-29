@@ -1,0 +1,11 @@
+{{#layout/-container}}
+  <h2 local-class="page-header">Scripts</h2>
+  <div local-class="list">
+    {{#each model as |script|}}
+      {{#link-to "script.show" script.id local-class="list-item"}}
+        <span local-class="list-item-text">{{script.lastModified}}</span>
+        <span local-class="list-item-tags">{{format-tags script.tags item-class="tag-item"}}</span>
+      {{/link-to}}
+    {{/each}}
+  </div>
+{{/layout/-container}}

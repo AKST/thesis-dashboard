@@ -1,0 +1,22 @@
+@value --margin-vspace, --margin-hspace from 'ui/styles/dimensions';
+
+@value --list-vspace: resolve(--margin-vspace * 0.75);
+
+.base-list {
+  box-sizing: border-box;
+  display: flex;
+  position: relative;
+  padding: --list-vspace 0;
+  flex-direction: column;
+
+}
+
+.base-list-it {
+  box-sizing: border-box;
+  padding: --list-vspace --margin-hspace;
+  flex-basis: 100%;
+
+  & + .base-list-it {
+
+  }
+}

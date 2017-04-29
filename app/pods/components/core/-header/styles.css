@@ -19,19 +19,24 @@
 }
 
 .title {
+  composes: link-supress from 'ui/styles/typography';
   composes: container-item;
+}
+
+.title-text {
   composes: base-header from 'ui/styles/typography';
+  composes: base-link from 'ui/styles/typography';
 }
 
 .nav {
   composes: container-item;
   display: flex;
-  flex-direction: row-reverse;
+  justify-content: flex-end;
 }
 
 .link {
   composes: base-link from 'ui/styles/typography';
   & + & {
-    margin-right: --margin-hspace;
+    margin-left: --margin-hspace;
   }
 }

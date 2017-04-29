@@ -1,16 +1,17 @@
-{{#layout/-container}}
-  <h2>{{model.name}}</h2>
-  <h3>Properties</h3>
-  <div>
+{{#layout/-container local-class="container"}}
+  <h2 local-class="sub-title">Package: <strong>{{model.name}}</strong></h2>
+  <div local-class="package-info">
     {{#each properties as |propDest|}}
-      <div>
+      <div local-class="package-info-item">
         <strong>{{propDest.label}}:</strong>
         <em>{{get model propDest.key}}</em>
       </div>
     {{/each}}
   </div>
-  <p>
-    <a href={{model.webUrl}}>View on github</a>
-  </p>
+  {{#if model.githubLink}}
+    <div local-class="github-mention">
+      <a local-class="github-link" href={{model.githubLink}}>View on github</a>
+    </div>
+  {{/if}}
   {{outlet}}
 {{/layout/-container}}

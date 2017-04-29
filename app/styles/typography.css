@@ -3,40 +3,56 @@
 @value --base-black from 'ui/styles/colors';
 
 @value --ff-default: Helvetica, sans-serif;
-@value --ff-header: Menlo, monospace;
+@value --ff-header: --ff-default;
+@value --ff-mono: Menlo, monospace;
+
+@value --fweight-strong: 700;
 
 @value --fsize-text: 1rem;
 @value --fsize-header: 1.5rem;
+@value --fsize-subheader: 1.25rem;
 
 .base-text {
+  box-sizing: border-box;
   --typography-text-color: --base-black;
   font-family: --ff-default;
   font-size: --fsize-text;
   line-height: 1;
+  text-decoration: none;
   margin: 0;
   color: var(--typography-text-color);
 }
 
 .text-underline {
+  position: relative;
   &::after {
     position: absolute;
     display: block;
     content: ' ';
     height: --border-width;
     width: 100%;
-    bottom: resolve(-2 * --border-width);
+    bottom: resolve(-1 * --border-width);
     left: 0;
     background-color: var(--typography-text-color);
   }
 }
 
+/*
+ * For when a non textual element is a link, and you want to supress
+ * underlining all the text inside the element.
+ */
+.link-supress {
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .base-link {
   composes: base-text;
+  composes: link-supress;
+  composes: text-underline;
   font-family: --ff-header;
   font-weight: 700;
-  text-decoration: none;
   position: relative;
-  composes: text-underline;
 
   &::after {
     opacity: 0;
@@ -55,4 +71,9 @@
   & + .base-header {
     padding-top: --margin-vspace;
   }
+}
+
+.base-subheader {
+  composes: base-header;
+  font-size: --fsize-subheader;
 }

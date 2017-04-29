@@ -1,0 +1,37 @@
+@value --base-black from 'ui/styles/colors';
+@value --base-white from 'ui/styles/colors';
+
+@value --ff-mono from 'ui/styles/typography';
+
+@value --border-width from 'ui/styles/dimensions';
+@value --unit from 'ui/styles/dimensions';
+
+.page-header {
+  composes: base-subheader from 'ui/styles/typography';
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  padding-top: --unit;
+}
+
+.option {
+  composes: base-text from 'ui/styles/typography';
+  font-family: --ff-mono;
+  width: 100%;
+  text-align: center;
+  background: --base-black;
+  color: --base-white;
+  padding: --unit;
+  & + .option {
+    margin-left: --unit;
+  }
+
+  &:global(.active) {
+    box-sizing: content-box;
+    background: --base-white;
+    color: --base-black;
+    border: --border-width --base-black solid;
+  }
+}

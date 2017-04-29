@@ -1,8 +1,10 @@
 {{#layout/-container}}
-  <h2>Packages</h2>
-  <div>
+  <h2 local-class="page-header">Packages</h2>
+  <div local-class="list">
     {{#each model as |package|}}
-      {{#link-to "package.show" package.id}}{{package.name}}{{/link-to}}
+      {{#link-to "package.show" package.id local-class="list-item"}}
+        <span local-class="list-item-text">{{package.name}}</span>
+      {{/link-to}}
     {{/each}}
   </div>
 {{/layout/-container}}

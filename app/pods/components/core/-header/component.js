@@ -5,8 +5,9 @@ export default Ember.Component.extend({
 
   links: function () {
     return [
-      { label: 'home', route: 'index' },
-      { label: 'packages', route: 'package.index' },
+      { label: 'Home', route: 'index' },
+      { label: 'Packages', route: 'package.index' },
+      { label: 'Scripts', route: 'script.index' },
     ]
   }.property(),
 });

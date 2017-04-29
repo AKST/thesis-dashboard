@@ -1,0 +1,13 @@
+<div local-class="visible">
+  <div local-class="description" data-selected={{_selected}}>
+    {{_description}}
+  </div>
+  <div local-class="drop-down-arrow"></div>
+</div>
+<div local-class="options">
+  {{#each _options as |option|}}
+    <div local-class="option" {{action 'update' option on='click'}}>
+      {{option.label}}
+    </div>
+  {{/each}}
+</div>

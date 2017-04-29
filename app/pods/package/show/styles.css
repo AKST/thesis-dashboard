@@ -1,0 +1,39 @@
+@value --margin-vspace, --margin-hspace from 'ui/styles/dimensions';
+
+.container-item {
+  & + .container-item {
+    padding-top: 1em;
+  }
+}
+
+.title {
+  composes: base-header from 'ui/styles/typography';
+  composes: container-item;
+}
+
+.sub-title {
+  composes: base-subheader from 'ui/styles/typography';
+  composes: container-item;
+}
+
+.package-info {
+  composes: base-text from 'ui/styles/typography';
+  composes: container-item;
+  padding-left: --margin-hspace;
+}
+
+.package-info-item {
+  composes: container-item;
+}
+
+.github-mention {
+  composes: base-text from 'ui/styles/typography';
+  composes: container-item;
+}
+
+.github-link {
+  composes: base-link from 'ui/styles/typography';
+
+  font-weight: 500;
+  font-style: italic;
+}

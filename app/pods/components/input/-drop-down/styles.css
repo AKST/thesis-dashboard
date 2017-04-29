@@ -1,0 +1,85 @@
+@value --unit from 'ui/styles/dimensions';
+@value --border-width from 'ui/styles/dimensions';
+
+@value --ff-mono from 'ui/styles/typography';
+
+@value --base-black from 'ui/styles/colors';
+@value --base-white from 'ui/styles/colors';
+
+@value initBorder: resolve(--unit / 2);
+
+.root {
+  --color-a: --base-black;
+  --color-b: --base-white;
+  --ff-label: --ff-mono;
+  --ff-option: --ff-mono;
+  --border: initBorder;
+  --parent-height: calc((var(--border) * 2) + 1em);
+  max-height: --parent-height;
+  position: relative;
+  box-sizing: border-box;
+
+  user-select: none;
+}
+
+.visible {
+  background: var(--color-b);
+  color: var(--color-a);
+  display: flex;
+  position: relative;
+  border: var(--color-a) --border-width solid;
+}
+
+.drop-down-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 900;
+  width: var(--parent-height);
+  height: var(--parent-height);
+  position: absolute;
+  top: 0;
+  right: 0;
+  &::after {
+    content: '▾';
+  }
+}
+
+.description {
+  padding: 0 resolve(initBorder * 1.5);
+  padding-top: resolve(initBorder * 1.3);
+  padding-bottom: resolve(initBorder * 0.7);
+  line-height: 1;
+  box-sizing: border-box;
+  font-family: var(--ff-label);
+  opacity: 0.5;
+
+  &[data-selected] {
+    opacity: 1
+  }
+}
+
+.options {
+  position: absolute;
+  box-sizing: border-box;
+  width: 100%;
+  top: calc(var(--parent-height) + (--border-width * 2));
+  background: var(--color-a);
+  border-top: --border-width var(--color-b) solid;
+  display: none;
+}
+
+.options--visible {
+  display: block;
+}
+
+.option {
+  font-family: var(--ff-option);
+  padding: initBorder resolve(initBorder * 1.5);
+  transition: background 0.5s ease-in, color 0.5 ease-in;
+  color: var(--color-b);
+  &:hover {
+    color: var(--color-a);
+    background: var(--color-b);
+  }
+}

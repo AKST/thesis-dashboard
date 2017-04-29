@@ -1,0 +1,25 @@
+@value --base-white, --base-black from 'ui/styles/colors';
+
+.page-header {
+  composes: base-header from 'ui/styles/typography';
+}
+
+.list {
+  composes: base-list from 'ui/styles/layout';
+}
+
+.list-item {
+  composes: base-text from 'ui/styles/typography';
+  composes: base-list-it from 'ui/styles/layout';
+
+  --typography-text-color: --base-black;
+  &:hover {
+    background-color: --base-black;
+    --typography-text-color: --base-white;
+  }
+}
+
+
+.list-item-text {
+  composes: text-underline from 'ui/styles/typography';
+}
