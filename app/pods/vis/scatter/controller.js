@@ -1,10 +1,10 @@
 import Ember from 'ember'
 import styles from './styles'
 import get from 'ember-metal/get'
-import computed from 'ember-computed-decorators'
+import computed, { observes } from 'ember-computed-decorators'
 
 import { rankSemver } from 'ui/utils/semver'
-import { calculatePoints } from 'ui/utils/graph-prep'
+import { toDataPoints, makeLines } from 'ui/utils/graph-prep'
 
 const toOptions = (labelKey, valueKey) => (item) => {
   const value = get(item, valueKey)
@@ -20,16 +20,27 @@ export default Ember.Controller.extend({
   scriptHash: null,
   fileExtension: 'hi',
 
-  filteredSize: null,
-  filteredTime: null,
+  filteredX: null,
+  filteredY: null,
+
+  @observes('model.results')
+  resetFilters () {
+    this.set('filteredX', null)
+    this.set('filteredY', null)
+  },
 
   @computed('model.results')
-  _results (items) {
+  normalisedGraphData (items) {
     const x = { source: 'fileSize', description: 'File Size (bytes)' }
     const y = { source: 'averageTime', description: 'Average Time (seconds)' }
     const rank = it => rankSemver(get(it, 'ghcVersion'))
     const grouping = it => it.belongsTo('package').id()
-    return calculatePoints(items, x, y, rank, grouping)
+    return toDataPoints(items, x, y, rank, grouping)
+  },
+
+  @computed('normalisedGraphData', 'filteredX', 'filteredY')
+  filteredGraphData (items, timeFilter, sizeFilter) {
+    return items.intersect(timeFilter, sizeFilter)
   },
 
   @computed('model.scripts')
@@ -50,16 +61,16 @@ export default Ember.Controller.extend({
     return { options, update, description, initial };
   },
 
-  @computed('_results')
-  sizeRange (_results) {
-    const onChange = update => this.set('filteredSize', update)
-    return { range: _results.bounds.x, onChange }
+  @computed('normalisedGraphData')
+  sizeRange (normalisedGraphData) {
+    const onChange = update => this.set('filteredX', update)
+    return { range: normalisedGraphData.bounds.x, onChange }
   },
 
-  @computed('_results')
-  timeRange (_results) {
-    const onChange = update => this.set('filteredTime', update)
-    return { range: _results.bounds.y, onChange }
+  @computed('normalisedGraphData')
+  timeRange (normalisedGraphData) {
+    const onChange = update => this.set('filteredY', update)
+    return { range: normalisedGraphData.bounds.y, onChange }
   },
 
   @computed('scriptSelect', 'fileTypeSelect', 'sizeRange', 'timeRange')

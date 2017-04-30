@@ -1,7 +1,7 @@
 import Ember from 'ember'
 import get from 'ember-metal/get'
 
-const { RSVP, Route } = Ember
+const { Route } = Ember
 
 export default Route.extend({
   queryParams: {
@@ -12,7 +12,7 @@ export default Route.extend({
   model ({ fileExtension, scriptHash }) {
     if (scriptHash == null) {
       const parent = this.modelFor('vis')
-      const scriptHash = parent.scripts.objectAt(0).get('id')
+      const scriptHash = get(parent.scripts.objectAt(0), 'id')
       return this.transitionTo({ queryParams: { scriptHash } })
     }
     const parent = this.modelFor('vis')

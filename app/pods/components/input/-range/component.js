@@ -1,6 +1,7 @@
 import uuid from 'npm:uuid'
 import Ember from 'ember'
 import styles from './styles'
+import computed, { observes } from 'ember-computed-decorators'
 
 import { checkKeyThenConf } from 'ui/utils/init'
 import { elementWidth, elementHeight } from 'ui/utils/dom'
@@ -15,13 +16,15 @@ const Component = Ember.Component.extend({
   config: null,
   range: null,
 
-  _range: Ember.computed('range', 'config.range', function () {
+  @computed('range', 'config')
+  _range () {
     return checkKeyThenConf(this, 'range', null)
-  }),
+  },
 
-  _onChange: Ember.computed('onChange', 'config.onChange', function () {
+  @computed('onChange', 'config')
+  _onChange () {
     return checkKeyThenConf(this, 'onChange', null)
-  }),
+  },
 
   _viewBox: '0 0 100 100',
   _a: null,
@@ -35,8 +38,23 @@ const Component = Ember.Component.extend({
   _actualWidth: 0,
   _actualHeight: 0,
 
+  // life time hooks
+
   didInsertElement (...args) {
     this._super(...args)
+    const el = this.get('element')
+
+    for (const el of this.element.getElementsByClassName(styles.circle)) {
+      const id = el.dataset.circle === 'a' ? '_a' : '_b'
+      el.addEventListener('mousedown', event => this.mouseTarget(id, event))
+    }
+
+    this.calculateDimensions()
+  },
+
+  // calculations
+
+  calculateDimensions () {
     const el = this.get('element')
     const aId = uuid()
     const bId = uuid()
@@ -46,15 +64,7 @@ const Component = Ember.Component.extend({
     this.set('_b', initCircleState(1, bId))
     this.set('_actualHeight', elementHeight(el))
     this.set('_actualWidth', elementWidth(el))
-    this.calculateDimensions()
 
-    for (const el of this.element.getElementsByClassName(styles.circle)) {
-      const id = el.dataset.circle === 'a' ? '_a' : '_b'
-      el.addEventListener('mousedown', event => this.mouseTarget(id, event))
-    }
-  },
-
-  calculateDimensions () {
     const actualWidth = this.get('_actualWidth')
     const actualHeight = this.get('_actualHeight')
     const y = actualHeight / 2
@@ -65,17 +75,22 @@ const Component = Ember.Component.extend({
     this.set('_circleR', circleR)
 
     for (const circleId of ['_a', '_b']) {
-      const circle = this.get(circleId)
-      const percent = circle.get('percent')
-      const cRadius = this.get('circleRadiusWithStroke')
-      const x = cRadius + ((actualWidth - (cRadius * 2)) * percent)
-      circle.set('x', x)
+      this.resetCircleLocation(circleId)
     }
 
     // calc outer path
     const odx = actualWidth - (circleR * 2)
     this.set('_outerD', `M${circleR} ${y} H ${odx}`)
     this.positionInnerPath()
+  },
+
+  resetCircleLocation (circleId) {
+    const actualWidth = this.get('_actualWidth')
+    const circle = this.get(circleId)
+    const percent = circle.get('percent')
+    const cRadius = this.get('circleRadiusWithStroke')
+    const x = cRadius + ((actualWidth - (cRadius * 2)) * percent)
+    circle.set('x', x)
   },
 
   positionInnerPath () {
@@ -94,6 +109,13 @@ const Component = Ember.Component.extend({
   circleRadiusWithStroke: Ember.computed('_circleR', '_circleStroke', function () {
     return this.get('_circleR') + (this.get('_circleStroke') / 2)
   }),
+
+  // events
+
+  @observes('config')
+  handleConfigUpdate () {
+    this.calculateDimensions()
+  },
 
   mouseTarget (circleId, originalEvent) {
     const element = this.get('element')
