@@ -1,6 +1,7 @@
 import Ember from 'ember'
 import styles from './styles'
 import get from 'ember-metal/get'
+import computed from 'ember-computed-decorators'
 
 import { rankSemver } from 'ui/utils/semver'
 import { calculatePoints } from 'ui/utils/graph-prep'
@@ -22,54 +23,52 @@ export default Ember.Controller.extend({
   filteredSize: null,
   filteredTime: null,
 
-  _results: Ember.computed('model.results', function onResults () {
-    const items = this.get('model.results')
+  @computed('model.results')
+  _results (items) {
     const x = { source: 'fileSize', description: 'File Size (bytes)' }
     const y = { source: 'averageTime', description: 'Average Time (seconds)' }
     const rank = it => rankSemver(get(it, 'ghcVersion'))
     const grouping = it => it.belongsTo('package').id()
     return calculatePoints(items, x, y, rank, grouping)
-  }),
+  },
 
-  scriptSelect: Ember.computed('model.scripts', function () {
-    const options = this.get('model.scripts')
-      .sortBy('date')
-      .map(toOptions('lastModified', 'id'));
+  @computed('model.scripts')
+  scriptSelect (scripts) {
+    const options = scripts.sortBy('date').map(toOptions('lastModified', 'id'));
     const update = ({ value }) => this.set('scriptHash', value)
     const description = 'Select a script';
     const initial = options.findBy('value', this.get('scriptHash'))
     return { options, update, description, initial };
-  }),
+  },
 
-  fileTypeSelect: Ember.computed('model.fileTypes', function () {
-    const options = this.get('model.fileTypes').map(toOptions('fileType', 'fileType'));
+  @computed('model.fileTypes')
+  fileTypeSelect (fileTypes) {
+    const options = fileTypes.map(toOptions('fileType', 'fileType'));
     const update = ({ value }) => this.set('fileExtension', value)
     const description = 'Select a file type';
     const initial = options.findBy('value', this.get('fileExtension'))
     return { options, update, description, initial };
-  }),
+  },
 
-  sizeRange: Ember.computed('_results', function () {
+  @computed('_results')
+  sizeRange (_results) {
     const onChange = update => this.set('filteredSize', update)
-    return { range: this.get('_results').bounds.x, onChange }
-  }),
+    return { range: _results.bounds.x, onChange }
+  },
 
-  timeRange: Ember.computed('_results', function () {
+  @computed('_results')
+  timeRange (_results) {
     const onChange = update => this.set('filteredTime', update)
-    return { range: this.get('_results').bounds.y, onChange }
-  }),
+    return { range: _results.bounds.y, onChange }
+  },
 
-  controlConfig: Ember.computed('scriptSelect', 'fileTypeSelect', 'sizeRange', 'timeRange', function () {
-    const script = this.get('scriptSelect');
-    const fileType = this.get('fileTypeSelect');
-    const size = this.get('sizeRange');
-    const time = this.get('timeRange');
+  @computed('scriptSelect', 'fileTypeSelect', 'sizeRange', 'timeRange')
+  controlConfig (script, fileType, size, time) {
     return { script, fileType, size, time }
-  }),
+  },
 
-  currentScript: Ember.computed('scriptHash', function () {
-    const scriptHash = this.get('scriptHash')
-    const scripts = this.get('model.scripts')
-    return scripts.findBy('id', scriptHash)
-  }),
+  @computed('scriptHash', 'model.scripts')
+  currentScript (hash, scripts) {
+    return scripts.findBy('id', hash)
+  },
 });

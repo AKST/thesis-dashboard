@@ -10,4 +10,8 @@ export default Route.extend({
       fileTypes: this.store.findAll('filetype'),
     })
   },
+
+  afterModel () {
+    this.transitionTo('vis.scatter')
+  },
 });
