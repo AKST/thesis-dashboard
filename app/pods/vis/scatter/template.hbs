@@ -9,10 +9,43 @@
   {{/layout.control-row}}
 {{/layout/-graph-controls}}
 
-{{graph/-spacial-regression local-class="graph"
-    lines=filteredGraphData.lines
-    bounds=filteredGraphData.bounds
-    entries=filteredGraphData.entries}}
+<div local-class="visualisation-split">
+  {{graph/-spacial-regression local-class="graph"
+      selectNode=(action 'selectDataPoint')
+      lines=filteredGraphData.lines
+      bounds=filteredGraphData.bounds
+      entries=filteredGraphData.entries}}
+  <div local-class="node-i">
+    {{#if selectedResult}}
+      <p local-class="node-i_entry">
+        <strong>Package:</strong>
+        <br>
+        {{#link-to "package.show" selectedResult.package.id local-class="entry-value-link"}}
+          {{selectedResult.package.name}}
+        {{/link-to}}
+      </p>
+      <p local-class="node-i_entry">
+        <strong>GHC Version:</strong>
+        <br>
+        <span local-class="entry-value">{{selectedResult.ghcVersion}}</span>
+      </p>
+      <p local-class="node-i_entry">
+        <strong>File Size:</strong>
+        <br>
+        <span local-class="entry-value">{{selectedResult.fileSize}}</span>
+      </p>
+      <p local-class="node-i_entry">
+        <strong>Compile Time (avg):</strong>
+        <br>
+        <span local-class="entry-value">{{selectedResult.averageTime}}</span>
+      </p>
+    {{else}}
+      <p local-class="node-i_entry">
+        No node selected
+      </p>
+    {{/if}}
+  </div>
+</div>
 
 <div local-class="meta">
   <p local-class='description'>

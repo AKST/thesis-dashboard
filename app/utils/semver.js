@@ -1,7 +1,6 @@
 import get from 'ember-metal/get'
 import Ember from 'ember'
 
-
 export const T = Ember.Object.extend(Ember.Comparable, {
   major: null,
   minor: null,
@@ -40,7 +39,8 @@ export function compare (a, b) {
 export function rankSemver (version) {
   const range = 8
   const { major, minor } = version.getProperties('major', 'minor')
-  if (major === 8) return 1
+  console.log(major)
+  if (major > 7) return 1
   if (minor >= 10) return 1 * ((range - 1) / range)
   if (minor >= 8) return 1 * ((range - 2) / range)
   if (minor >= 6) return 1 * ((range - 3) /range)

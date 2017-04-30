@@ -2,10 +2,65 @@
 @value --unit from 'ui/styles/dimensions';
 
 @value --base-black from 'ui/styles/colors';
+@value --base-white from 'ui/styles/colors';
 @value --ff-mono from 'ui/styles/typography';
 
+.panel {
+  position: relative;
+  z-index: 10;
+}
+
+.visualisation-split {
+  min-height: calc(450px - 1rem);
+  max-width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 1rem;
+  z-index: 1;
+}
+
 .graph {
-  min-height: 450px
+  min-height: 100%;
+  min-width: 900px;
+}
+
+.node-i {
+  composes: base-text from 'ui/styles/typography';
+  box-sizing: border-box;
+  background: --base-black;
+  color: --base-white;
+  flex-shrink: 1;
+  width: 100%;
+  padding: 1rem;
+  max-height: calc(100% - 1rem);
+  margin-bottom: 1rem;
+}
+
+.node-i_entry {
+  composes: base-text from 'ui/styles/typography';
+  line-height: 1.5;
+  color: --base-white;
+  margin: 0;
+
+  & + .node-i_entry {
+    margin-top: --unit;
+  }
+}
+
+.entry-value {
+  color: --base-white;
+  font-weight: 300;
+}
+
+.entry-value-link {
+  composes: base-link from 'ui/styles/typography';
+  composes: entry-value;
+
+  &:hover {
+    --typography-text-color: --base-white;
+    composes: text-underline from 'ui/styles/typography';
+  }
 }
 
 .meta {
