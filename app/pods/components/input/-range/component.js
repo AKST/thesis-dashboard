@@ -1,6 +1,7 @@
 import uuid from 'npm:uuid'
 import Ember from 'ember'
 import styles from './styles'
+import { later } from 'ember-runloop'
 import computed, { observes } from 'ember-computed-decorators'
 
 import { checkKeyThenConf } from 'ui/utils/init'
@@ -49,7 +50,7 @@ const Component = Ember.Component.extend({
       el.addEventListener('mousedown', event => this.mouseTarget(id, event))
     }
 
-    this.calculateDimensions()
+    later(() => this.calculateDimensions(), 0)
   },
 
   // calculations

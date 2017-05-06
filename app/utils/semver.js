@@ -39,7 +39,7 @@ export function compare (a, b) {
 export function rankSemver (version) {
   const range = 8
   const { major, minor } = version.getProperties('major', 'minor')
-  console.log(major)
+
   if (major > 7) return 1
   if (minor >= 10) return 1 * ((range - 1) / range)
   if (minor >= 8) return 1 * ((range - 2) / range)
@@ -47,6 +47,7 @@ export function rankSemver (version) {
   if (minor >= 4) return 1 * ((range - 4) /range)
   if (minor >= 2) return 1 * ((range - 5) /range)
   if (minor >= 0) return 1 * ((range - 6) /range)
+
   return 1
 }
 

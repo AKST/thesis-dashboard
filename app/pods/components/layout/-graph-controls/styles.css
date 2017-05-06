@@ -3,6 +3,8 @@
 @value --unit from 'ui/styles/dimensions';
 
 .item {
+  position: relative;
+  box-sizing: border-box;
   & + .item {
     padding-left: --unit;
   }
@@ -10,6 +12,8 @@
 
 .root {
   composes: base-text from 'ui/styles/typography';
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -18,14 +22,19 @@
 
 .row {
   composes: base-text from 'ui/styles/typography';
+  box-sizing: border-box;
+
   display: flex;
   flex-direction: row;
   padding: --unit 0;
   width: 100%;
   max-width: 100%;
+
+  flex-flow: row wrap;
 }
 
 .drop-down {
+  box-sizing: border-box;
   composes: item;
   width: 100%;
 }
@@ -46,14 +55,13 @@
   align-items: center;
   composes: item;
   width: 100%;
-  max-width: 50%;
   max-height: calc(2rem + (--border-width * 2));
 }
 
 .label {
   font-weight: 700;
   box-sizing: border-box;
-  margin-right: --unit;
+  padding-right: --unit;
   width: 115px;
   line-height: 1;
   text-align: right;

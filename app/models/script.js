@@ -5,5 +5,5 @@ const { Model, attr } = DS
 export default Model.extend({
   tags: attr('tags'),
   repr: attr('string'),
-  lastModified: attr('date'),
+  lastModified: attr('app-date'),
 });

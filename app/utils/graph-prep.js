@@ -16,9 +16,13 @@ export class Range {
 
   update (item) {
     const next = get(item, this._field)
-    if (next < this.min) this.min = next
-    if (next > this.max) this.max = next
+    this.updateRaw(next)
     return next
+  }
+
+  updateRaw (value) {
+    if (value < this.min) this.min = value
+    if (value > this.max) this.max = value
   }
 
   refine (other) {
@@ -30,7 +34,7 @@ export class Range {
   }
 
   intersectPercentage (min, max) {
-    const copy = new Range(this._field, this.description)
+    const copy = this._freshCopy()
     copy.min = this.min + (this.difference * min)
     copy.max = this.min + (this.difference * max)
     return copy
@@ -38,6 +42,10 @@ export class Range {
 
   get difference () {
     return this.max - this.min
+  }
+
+  _freshCopy () {
+    return new Range(this._field, this.description)
   }
 }
 
@@ -58,6 +66,20 @@ export class NormalisedArray {
 
   get lines () {
     return makeLines(this._entries)
+  }
+
+  filter (predicate) {
+    const x = this._x._freshCopy()
+    const y = this._y._freshCopy()
+    const instance = new NormalisedArray(x, y)
+
+    for (const item of this._entries.filter(predicate)) {
+      instance._insert(item)
+      x.updateRaw(item.x)
+      y.updateRaw(item.y)
+    }
+
+    return instance
   }
 
   intersect (x, y) {

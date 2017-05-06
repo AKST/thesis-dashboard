@@ -1,4 +1,6 @@
-import Ember from 'ember';
+import Route from 'ember-route'
+import { makeChildRoute } from 'ui/pods/vis/route'
 
-export default Ember.Route.extend({
-});
+export default Route.extend({
+  ...makeChildRoute()
+})

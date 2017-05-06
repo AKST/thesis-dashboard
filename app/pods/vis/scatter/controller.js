@@ -5,7 +5,7 @@ import get from 'ember-metal/get'
 import computed, { observes } from 'ember-computed-decorators'
 
 import { rankSemver } from 'ui/utils/semver'
-import { toDataPoints, makeLines } from 'ui/utils/graph-prep'
+import { toDataPoints } from 'ui/utils/graph-prep'
 
 const toOptions = (labelKey, valueKey) => (item) => {
   const value = get(item, valueKey)
@@ -22,6 +22,7 @@ export default Controller.extend({
 
   scriptHash: null,
   fileExtension: 'hi',
+  packageFilter: null,
 
   selectedResult: null,
   filteredX: null,
@@ -54,9 +55,19 @@ export default Controller.extend({
    * Generates a subset of data of normalisedGraphData filtered
    * on constraints defined by the range sliders.
    */
-  @computed('normalisedGraphData', 'filteredX', 'filteredY')
-  filteredGraphData (items, timeFilter, sizeFilter) {
-    return items.intersect(timeFilter, sizeFilter)
+  @computed('normalisedGraphData', 'filteredX', 'filteredY', 'packageFilter')
+  filteredGraphData (items, timeFilter, sizeFilter, packageId) {
+    const store = this.get('store')
+
+    const predicate = function (it) {
+      if (packageId == null) return true
+
+      const fetched = store.peekRecord('result', it.id)
+      return fetched.belongsTo('package').id() === packageId
+    }
+
+    const cropped = items.intersect(timeFilter, sizeFilter)
+    return cropped.filter(predicate)
   },
 
   /*
@@ -68,6 +79,22 @@ export default Controller.extend({
     const update = ({ value }) => this.set('scriptHash', value)
     const description = 'Select a script';
     const initial = options.findBy('value', this.get('scriptHash'))
+    return { options, update, description, initial };
+  },
+
+  /*
+   * Configuration for the package selector
+   */
+  @computed('model.packages')
+  packageSelect (packages) {
+    // default option should be at the start
+    const options = [{ value: null, label: 'None' }]
+      .concat(packages
+        .sortBy('name')
+        .map(toOptions('name', 'id')))
+    const update = ({ value }) => this.set('packageFilter', value)
+    const description = 'Select a Package';
+    const initial = options.findBy('value', this.get('packageFilter'))
     return { options, update, description, initial };
   },
 
@@ -104,9 +131,9 @@ export default Controller.extend({
   /*
    * Configuration for the combined graph control input
    */
-  @computed('scriptSelect', 'fileTypeSelect', 'sizeRange', 'timeRange')
-  controlConfig (script, fileType, size, time) {
-    return { script, fileType, size, time }
+  @computed('scriptSelect', 'fileTypeSelect', 'packageSelect', 'sizeRange', 'timeRange')
+  controlConfig (script, fileType, packages, size, time) {
+    return { script, fileType, packages, size, time }
   },
 
   /*
@@ -120,7 +147,7 @@ export default Controller.extend({
   actions: {
     selectDataPoint (id) {
       const result = this.store.peekRecord('result', id)
-      this.set('selectedResult', this.store.peekRecord('result', id))
+      this.set('selectedResult', result)
     },
   },
 });

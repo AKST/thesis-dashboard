@@ -54,6 +54,11 @@
   font-family: var(--ff-label);
   opacity: 0.5;
 
+  max-width: 100%;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   &[data-selected] {
     opacity: 1
   }

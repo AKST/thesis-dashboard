@@ -1,7 +1,8 @@
 {{#layout/-graph-controls config=controlConfig local-class="panel" as |layout|}}
   {{#layout.control-row as |row|}}
     {{#row.label text="File Type"}}{{row.fileTypes}}{{/row.label}}
-    {{#row.label text="Script Hash"}}{{row.scripts}}{{/row.label}}
+    {{#row.label text="Script"}}{{row.scripts}}{{/row.label}}
+    {{#row.label text="Package"}}{{row.packages}}{{/row.label}}
   {{/layout.control-row}}
   {{#layout.control-row as |row|}}
     {{#row.label text="Time"}}{{row.timeRange}}{{/row.label}}
