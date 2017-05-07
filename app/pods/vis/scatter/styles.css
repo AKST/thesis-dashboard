@@ -20,11 +20,6 @@
   z-index: 1;
 }
 
-.graph {
-  min-height: 100%;
-  min-width: 900px;
-}
-
 .node-i {
   composes: base-text from 'ui/styles/typography';
   box-sizing: border-box;
@@ -87,4 +82,26 @@
   &::before {
     content: '#';
   }
+}
+
+.graph-location {
+  min-height: 100%;
+  min-width: 900px;
+}
+
+.graph {
+  composes: graph-location;
+}
+
+.no-data {
+  composes: graph-location;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-data-message {
+  composes: base-text from 'ui/styles/typography';
+  font-family: --ff-mono;
+  font-size: 3em;
 }

@@ -1,6 +1,7 @@
-import DS from 'ember-data'
+import Model from 'ember-data/model'
+import attr from 'ember-data/attr'
+import { belongsTo } from 'ember-data/relationships'
 
-const { belongsTo, attr, Model } = DS
 
 export default Model.extend({
   fileSize: attr('number'),

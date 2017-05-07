@@ -1,19 +1,18 @@
+import injectService from 'ember-service/inject'
 import Route from 'ember-route'
 import RSVP from 'rsvp'
 import get from 'ember-metal/get'
 
 
 export default Route.extend({
+  router: injectService('router'),
+
   model () {
     return RSVP.hash({
       scripts: this.store.findAll('script'),
       packages: this.store.findAll('package'),
       fileTypes: this.store.findAll('filetype'),
     })
-  },
-
-  afterModel () {
-    this.transitionTo('vis.scatter')
   },
 })
 
@@ -29,12 +28,15 @@ export function makeChildRoute () {
   }
 
   const model = function ({ fileExtension, scriptHash }) {
-    if (scriptHash == null) {
-      const parent = this.modelFor('vis')
-      const scriptHash = get(parent.scripts.objectAt(0), 'id')
-      return this.transitionTo({ queryParams: { scriptHash } })
-    }
     const parent = this.modelFor('vis')
+    if (scriptHash == null) {
+      const scriptHash = get(parent.scripts.objectAt(0), 'id')
+      return this.transitionTo({ queryParams: { scriptHash, fileExtension } })
+    }
+    else if (fileExtension == null) {
+      return this.transitionTo({ queryParams: { scriptHash, fileExtension: 'hi' } })
+    }
+
     const results = this.store.query('result', { fileExtension, scriptHash })
     return results.then(results => Object.assign({}, parent, { results }))
   }

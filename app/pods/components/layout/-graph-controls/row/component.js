@@ -16,7 +16,9 @@ const Component = Ember.Component.extend({
 
     for (const node of element.childNodes) {
       if (node.nodeType !== node.ELEMENT_NODE) continue
-      node.style.maxWidth = `${childMaxWidth}%`
+      const width = `${childMaxWidth}%`;
+      node.style.maxWidth = width
+      node.style.width = width
     }
   }
 })

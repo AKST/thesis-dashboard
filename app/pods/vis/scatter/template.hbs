@@ -11,11 +11,17 @@
 {{/layout/-graph-controls}}
 
 <div local-class="visualisation-split">
-  {{graph/-spacial-regression local-class="graph"
-      selectNode=(action 'selectDataPoint')
-      lines=filteredGraphData.lines
-      bounds=filteredGraphData.bounds
-      entries=filteredGraphData.entries}}
+  {{#if filteredGraphData.hasData}}
+    {{graph/-spacial-regression local-class="graph"
+        selectNode=(action 'selectDataPoint')
+        lines=filteredGraphData.lines
+        bounds=filteredGraphData.bounds
+        entries=filteredGraphData.entries}}
+  {{else}}
+    <div local-class="no-data">
+      <p local-class="no-data-message"> No data </p>
+    </div>
+  {{/if}}
   <div local-class="node-i">
     {{#if selectedResult}}
       <p local-class="node-i_entry">

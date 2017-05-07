@@ -1,6 +1,8 @@
-import DS from 'ember-data'
+import Model from 'ember-data/model'
+import attr from 'ember-data/attr'
+import computed from 'ember-computed-decorators'
 
-const { attr, Model } = DS
+
 const PROJECT_PATH_REGEX = /^git@github.com:(.*).git$/
 
 export default Model.extend({
@@ -10,13 +12,13 @@ export default Model.extend({
   repoUrl: attr('string'),
   commitHash: attr('string'),
 
-  githubLink: function () {
-    const { repoUrl, commitHash } = this.getProperties('repoUrl', 'commitHash')
+  @computed('repoUrl', 'commitHash')
+  githubLink (repoUrl, commitHash) {
     const match = repoUrl.match(PROJECT_PATH_REGEX)
     if (match) {
-      const projectPath = match[1];
-      return `https://github.com/${projectPath}/tree/${commitHash}`;
+      const [, projectPath] = match
+      return `https://github.com/${projectPath}/tree/${commitHash}`
     }
     return null
-  }.property('repoUrl', 'commitHash'),
+  },
 })

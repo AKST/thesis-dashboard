@@ -14,7 +14,7 @@ const toOptions = (labelKey, valueKey) => (item) => {
 }
 
 export default Controller.extend({
-  queryParams: ['fileExtension', 'scriptHash'],
+  queryParams: ['fileExtension', 'scriptHash', 'packageFilter'],
 
   store: injectService('store'),
 

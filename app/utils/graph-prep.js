@@ -54,6 +54,11 @@ export class NormalisedArray {
     this._entries = []
     this._x = x
     this._y = y
+    this._hasData = false;
+  }
+
+  get hasData () {
+    return this._hasData;
   }
 
   get entries () {
@@ -98,6 +103,7 @@ export class NormalisedArray {
   }
 
   _insert (item) {
+    this._hasData = true;
     this._entries.push(item)
     this._x.update(item)
     this._y.update(item)
