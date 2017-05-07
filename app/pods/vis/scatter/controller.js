@@ -38,14 +38,6 @@ export default Controller.extend({
     this.set('filteredY', null)
   },
 
-  /**
-   * Hides current selected node if the filter hides it.
-   */
-  @observes('selectedBounds')
-  hideSelectedNodeIfFiltered () {
-    this.removeSelectedNodeIfNoLongerVisible();
-  },
-
   @computed('filteredGraphData', 'filteredY', 'filteredX')
   selectedBounds (filteredGraphData, filteredY, filteredX) {
     const x = filteredX != null ? filteredX : filteredGraphData.bounds.x
@@ -56,40 +48,35 @@ export default Controller.extend({
   /**
    * Value of the selected node.
    */
-  @computed('selectedResultId')
-  selectedResult (id) {
-    return this.store.peekRecord('result', id);
+  @computed('selectedResultId', 'selectedBounds')
+  selectedResult (id, { x, y }) {
+    const result = this.store.peekRecord('result', id);
+    const xInclusive = x.containsValue(result.get('fileSize'))
+    const yInclusive = y.containsValue(result.get('averageTime'))
+    return (xInclusive && yInclusive) ? result : null
   },
 
   /*
    * Only needs to be calculate once data is downloaded.
    */
-  @computed('model.results')
-  normalisedGraphData (items) {
+  @computed('model.results', 'packageFilter')
+  normalisedGraphData (items, packageId) {
     const x = { source: 'fileSize', description: 'File Size (bytes)' }
     const y = { source: 'averageTime', description: 'Average Time (seconds)' }
     const rank = it => rankSemver(get(it, 'ghcVersion'))
     const grouping = it => it.belongsTo('package').id()
-    return toDataPoints(items, x, y, rank, grouping)
+    const filtered = packageId == null ? items
+      : items.filter(it => it.belongsTo('package').id() === packageId)
+    return toDataPoints(filtered, x, y, rank, grouping)
   },
 
   /*
    * Generates a subset of data of normalisedGraphData filtered
    * on constraints defined by the range sliders.
    */
-  @computed('normalisedGraphData', 'filteredX', 'filteredY', 'packageFilter')
-  filteredGraphData (items, timeFilter, sizeFilter, packageId) {
-    const store = this.get('store')
-
-    const predicate = function (it) {
-      if (packageId == null) return true
-
-      const fetched = store.peekRecord('result', it.id)
-      return fetched.belongsTo('package').id() === packageId
-    }
-
-    const cropped = items.intersect(timeFilter, sizeFilter)
-    return cropped.filter(predicate)
+  @computed('normalisedGraphData', 'filteredX', 'filteredY')
+  filteredGraphData (items, timeFilter, sizeFilter) {
+    return items.intersect(timeFilter, sizeFilter)
   },
 
   /*
@@ -164,15 +151,6 @@ export default Controller.extend({
   @computed('scriptHash', 'model.scripts')
   currentScript (hash, scripts) {
     return scripts.findBy('id', hash)
-  },
-
-  removeSelectedNodeIfNoLongerVisible() {
-    const selectedResult = this.get('selectedResultId')
-    const filteredGraphData = this.get('filteredGraphData')
-    // if node no longer on screen hide it
-    if (! filteredGraphData.entries.findBy('id', selectedResult)) {
-      this.set('selectedResult', null);
-    }
   },
 
   actions: {

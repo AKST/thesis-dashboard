@@ -93,6 +93,7 @@ export class NormalisedArray {
     const intersection = new NormalisedArray(newX, newY)
     const filter = it => newX.containsValue(it.x) && newY.containsValue(it.y)
     intersection._entries = this._entries.filter(filter)
+    intersection._hasData = intersection._entries.length > 0
     return intersection
   }
 
