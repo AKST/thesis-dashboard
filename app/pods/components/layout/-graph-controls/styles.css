@@ -13,6 +13,7 @@
 .root {
   composes: base-text from 'ui/styles/typography';
   box-sizing: border-box;
+  user-select: none;
 
   display: flex;
   flex-direction: column;

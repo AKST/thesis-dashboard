@@ -1,0 +1,14 @@
+.root {
+
+}
+
+.title {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  display: block;
+}
+
+.range {
+  display: flex;
+  justify-content: space-around;
+}

@@ -14,17 +14,16 @@ const toOptions = (labelKey, valueKey) => (item) => {
 }
 
 export default Controller.extend({
-  queryParams: ['fileExtension', 'scriptHash', 'packageFilter'],
+  queryParams: ['fileExtension', 'scriptHash', 'packageFilter', 'selectedResultId'],
+  classes: styles,
 
   store: injectService('store'),
-
-  classes: styles,
 
   scriptHash: null,
   fileExtension: 'hi',
   packageFilter: null,
+  selectedResultId: null,
 
-  selectedResult: null,
   filteredX: null,
   filteredY: null,
 
@@ -33,10 +32,33 @@ export default Controller.extend({
    * will be inconsistent with the new data so it's best to
    * reset them.
    */
-  @observes('model.results')
+  @observes('normalisedGraphData')
   resetFilters () {
     this.set('filteredX', null)
     this.set('filteredY', null)
+  },
+
+  /**
+   * Hides current selected node if the filter hides it.
+   */
+  @observes('selectedBounds')
+  hideSelectedNodeIfFiltered () {
+    this.removeSelectedNodeIfNoLongerVisible();
+  },
+
+  @computed('filteredGraphData', 'filteredY', 'filteredX')
+  selectedBounds (filteredGraphData, filteredY, filteredX) {
+    const x = filteredX != null ? filteredX : filteredGraphData.bounds.x
+    const y = filteredY != null ? filteredY : filteredGraphData.bounds.y
+    return { x, y }
+  },
+
+  /**
+   * Value of the selected node.
+   */
+  @computed('selectedResultId')
+  selectedResult (id) {
+    return this.store.peekRecord('result', id);
   },
 
   /*
@@ -144,10 +166,18 @@ export default Controller.extend({
     return scripts.findBy('id', hash)
   },
 
+  removeSelectedNodeIfNoLongerVisible() {
+    const selectedResult = this.get('selectedResultId')
+    const filteredGraphData = this.get('filteredGraphData')
+    // if node no longer on screen hide it
+    if (! filteredGraphData.entries.findBy('id', selectedResult)) {
+      this.set('selectedResult', null);
+    }
+  },
+
   actions: {
     selectDataPoint (id) {
-      const result = this.store.peekRecord('result', id)
-      this.set('selectedResult', result)
+      this.set('selectedResultId', id)
     },
   },
 });

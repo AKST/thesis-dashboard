@@ -1,0 +1,11 @@
+{{#if label}}
+  <strong local-class="label">{{label}}</strong>
+{{/if}}
+<div local-class="value">
+  {{#if hasBlock}}
+    {{log}}
+    {{yield data}}
+  {{else}}
+    {{data}}
+  {{/if}}
+</div>

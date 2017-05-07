@@ -122,14 +122,14 @@ const Component = Ember.Component.extend({
     const element = this.get('element')
     const handler = this.redrawSlider(circleId, originalEvent)
     const finish = () => {
-      element.removeEventListener('mousemove', handler)
-      element.removeEventListener('mouseleave', finish)
-      element.removeEventListener('mouseup', finish)
+      window.removeEventListener('mousemove', handler)
+      window.removeEventListener('mouseup', finish)
+      window.removeEventListener('mouseleave', finish)
     }
 
-    element.addEventListener('mousemove', handler)
-    element.addEventListener('mouseleave', finish)
-    element.addEventListener('mouseup', finish)
+    window.addEventListener('mousemove', handler)
+    window.addEventListener('mouseup', finish)
+    window.addEventListener('mouseleave', finish)
   },
 
   redrawSlider (circleId, { screenX: originalScreenX }) {

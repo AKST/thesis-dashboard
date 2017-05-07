@@ -15,7 +15,7 @@
     {{graph/-spacial-regression local-class="graph"
         selectNode=(action 'selectDataPoint')
         lines=filteredGraphData.lines
-        bounds=filteredGraphData.bounds
+        bounds=selectedBounds
         entries=filteredGraphData.entries}}
   {{else}}
     <div local-class="no-data">
@@ -23,29 +23,15 @@
     </div>
   {{/if}}
   <div local-class="node-i">
+    {{info/-range-description selectedBounds.y title="Time Range" local-class="node-i_entry"}}
+    {{info/-range-description selectedBounds.x title="Size Range" local-class="node-i_entry" truncation=0}}
     {{#if selectedResult}}
-      <p local-class="node-i_entry">
-        <strong>Package:</strong>
-        <br>
-        {{#link-to "package.show" selectedResult.package.id local-class="entry-value-link"}}
-          {{selectedResult.package.name}}
-        {{/link-to}}
-      </p>
-      <p local-class="node-i_entry">
-        <strong>GHC Version:</strong>
-        <br>
-        <span local-class="entry-value">{{selectedResult.ghcVersion}}</span>
-      </p>
-      <p local-class="node-i_entry">
-        <strong>File Size:</strong>
-        <br>
-        <span local-class="entry-value">{{selectedResult.fileSize}}</span>
-      </p>
-      <p local-class="node-i_entry">
-        <strong>Compile Time (avg):</strong>
-        <br>
-        <span local-class="entry-value">{{selectedResult.averageTime}}</span>
-      </p>
+      {{#info/-labeled "Package" selectedResult.package local-class="node-i_entry" as |pkg|}}
+        {{#link-to "package.show" pkg.id local-class="entry-value-link"}}{{pkg.name}}{{/link-to}}
+      {{/info/-labeled}}
+      {{info/-labeled "GHC Version"  selectedResult.ghcVersion local-class="node-i_entry"}}
+      {{info/-labeled "File Size"    selectedResult.fileSize   local-class="node-i_entry"}}
+      {{info/-labeled "Compile Time" selectedResult.fileSize   local-class="node-i_entry"}}
     {{else}}
       <p local-class="node-i_entry">
         No node selected
