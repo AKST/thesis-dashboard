@@ -1,7 +1,7 @@
 import Ember from 'ember'
 import get from 'ember-metal/get'
 import classes from './styles'
-import computed from 'ember-computed-decorators'
+import computed, { observes } from 'ember-computed-decorators'
 
 const toOptions = (labelKey, valueKey) => (item) => {
   const value = get(item, valueKey)
@@ -16,16 +16,45 @@ export default Ember.Component.extend({
 
   _data: null,
 
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // PUBLIC API                                                                         //
+  ////////////////////////////////////////////////////////////////////////////////////////
+
+  selectedResultId: null,
   packageFilter: null,
   fileExtension: null,
   scriptHash: null,
-  selectedResult: null,
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // FILTER VALUES                                                                      //
+  ////////////////////////////////////////////////////////////////////////////////////////
+
   filteredX: null,
   filteredY: null,
 
-  @computed('_data.results')
-  _filtered (normalisedGraphData) {
-    return normalisedGraphData
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // OBSERVERS                                                                          //
+  ////////////////////////////////////////////////////////////////////////////////////////
+
+  /*
+   * When `model.results` resets the filters for the graph
+   * will be inconsistent with the new data so it's best to
+   * reset them.
+   */
+  @observes('_data.results')
+  resetFilters () {
+    this.set('filteredX', null)
+    this.set('filteredY', null)
+  },
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // COMPUTED PROPERTIES                                                                //
+  ////////////////////////////////////////////////////////////////////////////////////////
+
+
+  @computed('_data.results', 'filteredX', 'filteredY')
+  _filtered (items, timeFilter, sizeFilter) {
+    return items.intersect(timeFilter, sizeFilter)
   },
 
   @computed('_filtered', 'filteredY', 'filteredX')

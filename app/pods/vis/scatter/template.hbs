@@ -1,51 +1,20 @@
-{{#layout/-graph-controls config=controlConfig local-class="panel" as |layout|}}
-  {{#layout.control-row as |row|}}
-    {{#row.label text="File Type"}}{{row.fileTypes}}{{/row.label}}
-    {{#row.label text="Script"}}{{row.scripts}}{{/row.label}}
-    {{#row.label text="Package"}}{{row.packages}}{{/row.label}}
-  {{/layout.control-row}}
-  {{#layout.control-row as |row|}}
-    {{#row.label text="Time"}}{{row.timeRange}}{{/row.label}}
-    {{#row.label text="Size"}}{{row.sizeRange}}{{/row.label}}
-  {{/layout.control-row}}
-{{/layout/-graph-controls}}
+{{#layout/-graph-page data
+      selectedResultId=selectedResultId
+      packageFilter=packageFilter
+      fileExtension=fileExtension
+      scriptHash=scriptHash as |page|}}
+  {{#page.controls local-class="panel" as |layout|}}
+    {{#layout.control-row as |row|}}
+      {{#row.label text="File Type"}}{{row.fileTypes}}{{/row.label}}
+      {{#row.label text="Script"}}{{row.scripts}}{{/row.label}}
+      {{#row.label text="Package"}}{{row.packages}}{{/row.label}}
+    {{/layout.control-row}}
+    {{#layout.control-row as |row|}}
+      {{#row.label text="Time"}}{{row.timeRange}}{{/row.label}}
+      {{#row.label text="Size"}}{{row.sizeRange}}{{/row.label}}
+    {{/layout.control-row}}
+  {{/page.controls}}
 
-<div local-class="visualisation-split">
-  {{#if filteredGraphData.hasData}}
-    {{graph/-spacial-regression local-class="graph"
-        selectNode=(action 'selectDataPoint')
-        lines=filteredGraphData.lines
-        bounds=selectedBounds
-        entries=filteredGraphData.entries}}
-  {{else}}
-    <div local-class="no-data">
-      <p local-class="no-data-message"> No data </p>
-    </div>
-  {{/if}}
-  <div local-class="node-i">
-    {{info/-range-description selectedBounds.y title="Time Range" local-class="node-i_entry"}}
-    {{info/-range-description selectedBounds.x title="Size Range" local-class="node-i_entry" truncation=0}}
-    {{#if selectedResult}}
-      {{#info/-labeled "Package" selectedResult.package local-class="node-i_entry" as |pkg|}}
-        {{#link-to "package.show" pkg.id local-class="entry-value-link"}}{{pkg.name}}{{/link-to}}
-      {{/info/-labeled}}
-      {{info/-labeled "GHC Version"  selectedResult.ghcVersion local-class="node-i_entry"}}
-      {{info/-labeled "File Size"    selectedResult.fileSize   local-class="node-i_entry"}}
-      {{info/-labeled "Compile Time" selectedResult.fileSize   local-class="node-i_entry"}}
-    {{else}}
-      <p local-class="node-i_entry">
-        No node selected
-      </p>
-    {{/if}}
-  </div>
-</div>
+  {{page.graphBody graph-component-name='graph/-spacial-regression'}}
+{{/layout/-graph-page}}
 
-<div local-class="meta">
-  <p local-class='description'>
-    <strong>Tags:</strong>
-    <em>{{format-tags currentScript.tags item-class=classes.tag}}</em>
-  </p>
-  {{#link-to 'script.show' currentScript.id local-class="script-link"}}
-    View Script
-  {{/link-to}}
-</div>
