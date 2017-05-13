@@ -23,8 +23,8 @@
 .node-i {
   composes: base-text from 'ui/styles/typography';
   box-sizing: border-box;
-  // background: --base-black;
-  // color: --base-white;
+  background: --base-black;
+  color: --base-white;
   flex-shrink: 1;
   width: 100%;
   padding: 1rem;
@@ -36,7 +36,7 @@
 .node-i_entry {
   composes: base-text from 'ui/styles/typography';
   line-height: 1.5;
-  // color: --base-white;
+  color: --base-white;
   margin: 0;
 
   & + .node-i_entry {
@@ -45,14 +45,14 @@
 }
 
 .entry-value {
-  // color: --base-white;
+  color: --base-white;
   font-weight: 300;
 }
 
 .entry-value-link {
   composes: base-link from 'ui/styles/typography';
   composes: entry-value;
-  --typography-text-color: --base-black;
+  --typography-text-color: --base-white;
 
   &:hover {
     composes: text-underline from 'ui/styles/typography';

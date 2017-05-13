@@ -14,18 +14,40 @@ const toOptions = (labelKey, valueKey) => (item) => {
 }
 
 export default Controller.extend({
-  queryParams: ['fileExtension', 'scriptHash', 'packageFilter', 'selectedResultId'],
+  queryParams: {
+    fileExtension: 'fext',
+    scriptHash: 'hash',
+    packageFilter: 'package',
+    selectedResultId: 'focus',
+  },
+
   classes: styles,
 
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // DEPENDENCIES                                                                       //
+  ////////////////////////////////////////////////////////////////////////////////////////
+
   store: injectService('store'),
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // QUERY PARAM STATE                                                                  //
+  ////////////////////////////////////////////////////////////////////////////////////////
 
   scriptHash: null,
   fileExtension: 'hi',
   packageFilter: null,
   selectedResultId: null,
 
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // FILTER VALUES                                                                      //
+  ////////////////////////////////////////////////////////////////////////////////////////
+
   filteredX: null,
   filteredY: null,
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // OBSERVERS                                                                          //
+  ////////////////////////////////////////////////////////////////////////////////////////
 
   /*
    * When `model.results` resets the filters for the graph
@@ -38,23 +60,9 @@ export default Controller.extend({
     this.set('filteredY', null)
   },
 
-  @computed('filteredGraphData', 'filteredY', 'filteredX')
-  selectedBounds (filteredGraphData, filteredY, filteredX) {
-    const x = filteredX != null ? filteredX : filteredGraphData.bounds.x
-    const y = filteredY != null ? filteredY : filteredGraphData.bounds.y
-    return { x, y }
-  },
-
-  /**
-   * Value of the selected node.
-   */
-  @computed('selectedResultId', 'selectedBounds')
-  selectedResult (id, { x, y }) {
-    const result = this.store.peekRecord('result', id);
-    const xInclusive = x.containsValue(result.get('fileSize'))
-    const yInclusive = y.containsValue(result.get('averageTime'))
-    return (xInclusive && yInclusive) ? result : null
-  },
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // COMPUTED PROPERTIES                                                                //
+  ////////////////////////////////////////////////////////////////////////////////////////
 
   /*
    * Only needs to be calculate once data is downloaded.
@@ -77,6 +85,26 @@ export default Controller.extend({
   @computed('normalisedGraphData', 'filteredX', 'filteredY')
   filteredGraphData (items, timeFilter, sizeFilter) {
     return items.intersect(timeFilter, sizeFilter)
+  },
+
+  @computed('filteredGraphData', 'filteredY', 'filteredX')
+  selectedBounds (filteredGraphData, filteredY, filteredX) {
+    const x = filteredX != null ? filteredX : filteredGraphData.bounds.x
+    const y = filteredY != null ? filteredY : filteredGraphData.bounds.y
+    return { x, y }
+  },
+
+  /**
+   * Value of the selected node.
+   */
+  @computed('selectedResultId', 'selectedBounds', 'model.results')
+  selectedResult (id, { x, y }) {
+    const result = this.store.peekRecord('result', id);
+    if (result != null) {
+      const xInclusive = x.containsValue(result.get('fileSize'))
+      const yInclusive = y.containsValue(result.get('averageTime'))
+      return (xInclusive && yInclusive) ? result : null
+    }
   },
 
   /*
@@ -152,6 +180,10 @@ export default Controller.extend({
   currentScript (hash, scripts) {
     return scripts.findBy('id', hash)
   },
+
+  ////////////////////////////////////////////////////////////////////////////////////////
+  // ACTIONS                                                                            //
+  ////////////////////////////////////////////////////////////////////////////////////////
 
   actions: {
     selectDataPoint (id) {

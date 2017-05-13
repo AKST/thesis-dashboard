@@ -1,0 +1,31 @@
+@value --ff-mono from 'ui/styles/typography';
+
+@value --border-width from 'ui/styles/dimensions';
+
+@value --base-black from 'ui/styles/colors';
+
+@value pointSize: 4px;
+
+@value margin: 50px;
+
+.root {
+
+}
+
+.svg_root {
+
+}
+
+.line {
+  stroke: color(--base-black alpha(30%));
+  stroke-width: --border-width;
+}
+
+.axis_label {
+  composes: base-text from 'ui/styles/typography';
+  font-family: --ff-mono;
+}
+
+.data_point {
+
+}

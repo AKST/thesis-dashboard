@@ -1,4 +1,5 @@
-import Ember from 'ember'
+import Component from 'ember-component'
+import computed from 'ember-computed-decorators'
 import styles from './styles'
 
 import { select } from 'd3-selection'
@@ -16,7 +17,7 @@ function circleRadius (item) {
   return item.rank * 8
 }
 
-export default Ember.Component.extend({
+export default Component.extend({
   localClassNames: ['root'],
 
   lines: null,
@@ -26,23 +27,23 @@ export default Ember.Component.extend({
 
   _chartElement: null,
 
-  _lines: Ember.computed('lines', function () {
-    const lines = this.get('lines')
+  @computed('lines')
+  _lines (lines) {
     const _default = []
     return lines != null ? lines : _default
-  }),
+  },
 
-  _entries: Ember.computed('entries', function () {
-    const entries = this.get('entries')
+  @computed('entries')
+  _entries (entries) {
     const _default = []
     return entries != null ? entries : _default
-  }),
+  },
 
-  _selectNode: Ember.computed('selectNode', function () {
-    const fn = this.get('selectNode')
+  @computed('selectNode')
+  _selectNode (fn) {
     const _default = function () {}
     return fn != null ? fn : _default
-  }),
+  },
 
   didInsertElement (...args) {
     this._super(...args)

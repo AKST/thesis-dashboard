@@ -1,59 +1,12 @@
 import get from 'ember-metal/get'
+import Range from 'ui/utils/math/range'
 
-export class Range {
-  constructor (field, description) {
-    this.min = Infinity
-    this.max = -Infinity
-    this._field = field
-    this.description = description
-  }
-
-  containsValue (value) {
-    if (value > this.max) return false
-    if (value < this.min) return false
-    return true
-  }
-
-  update (item) {
-    const next = get(item, this._field)
-    this.updateRaw(next)
-    return next
-  }
-
-  updateRaw (value) {
-    if (value < this.min) this.min = value
-    if (value > this.max) this.max = value
-  }
-
-  refine (other) {
-    if (other == null) return this
-    const copy = new Range(this._field, this.description)
-    copy.min = Math.max(this.min, other.min)
-    copy.max = Math.min(this.max, other.max)
-    return copy
-  }
-
-  intersectPercentage (min, max) {
-    const copy = this._freshCopy()
-    copy.min = this.min + (this.difference * min)
-    copy.max = this.min + (this.difference * max)
-    return copy
-  }
-
-  get difference () {
-    return this.max - this.min
-  }
-
-  _freshCopy () {
-    return new Range(this._field, this.description)
-  }
-}
 
 export class NormalisedArray {
   constructor (x, y) {
     this._entries = []
-    this._x = x
-    this._y = y
+    this._xRange = x
+    this._yRange = y
     this._hasData = false;
   }
 
@@ -66,7 +19,7 @@ export class NormalisedArray {
   }
 
   get bounds () {
-    return { x: this._x, y: this._y }
+    return { x: this._xRange, y: this._yRange }
   }
 
   get lines () {
@@ -74,22 +27,22 @@ export class NormalisedArray {
   }
 
   filter (predicate) {
-    const x = this._x._freshCopy()
-    const y = this._y._freshCopy()
+    const x = this._xRange._freshCopy()
+    const y = this._yRange._freshCopy()
     const instance = new NormalisedArray(x, y)
 
     for (const item of this._entries.filter(predicate)) {
       instance._insert(item)
-      x.updateRaw(item.x)
-      y.updateRaw(item.y)
+      x.acknowledge(item.x)
+      y.acknowledge(item.y)
     }
 
     return instance
   }
 
   intersect (x, y) {
-    const newX = this._x.refine(x)
-    const newY = this._y.refine(y)
+    const newX = this._xRange.refine(x)
+    const newY = this._yRange.refine(y)
     const intersection = new NormalisedArray(newX, newY)
     const filter = it => newX.containsValue(it.x) && newY.containsValue(it.y)
     intersection._entries = this._entries.filter(filter)
@@ -98,7 +51,7 @@ export class NormalisedArray {
   }
 
   intersectY (range) {
-    const intersection = new NormalisedArray(this._x, range)
+    const intersection = new NormalisedArray(this._xRange, range)
     intersection._entries = this._entries.filter(it => range.containsValue(it.y))
     return intersection
   }
@@ -106,8 +59,8 @@ export class NormalisedArray {
   _insert (item) {
     this._hasData = true;
     this._entries.push(item)
-    this._x.update(item)
-    this._y.update(item)
+    this._xRange.acknowledge(item.x)
+    this._yRange.acknowledge(item.y)
   }
 }
 
@@ -129,15 +82,25 @@ export function makeLines (sourceData) {
     .map(line => line.sort(compareRank))
 }
 
-export function toDataPoints (sourceData, xConf, yConf, ranker, getGroupId) {
-  const xRange = new Range(xConf.source, xConf.description)
-  const yRange = new Range(yConf.source, yConf.description)
-  const outData = new NormalisedArray(xRange, yRange)
+
+export function toDataPoints (sourceData, xConf, yConf, _ranker, getGroupId) {
+  function fieldFactory (descriptor) {
+    if (typeof descriptor === 'function') return descriptor;
+    if (typeof descriptor === 'string') return it => get(it, descriptor)
+    throw new TypeError("invalid field descriptor");
+  }
+
+  const ranker = _ranker != null ? _ranker : (() => 1)
+  const xField = fieldFactory(xConf.source);
+  const yField = fieldFactory(yConf.source);
+  const outData = new NormalisedArray(
+    Range.create(xConf.description, xConf.ordinalRange),
+    Range.create(yConf.description, yConf.ordinalRange))
 
   sourceData.forEach(item => {
     const id = get(item, 'id')
-    const x = xRange.update(item)
-    const y = yRange.update(item)
+    const x = xField(item);
+    const y = yField(item);
     const rank = ranker(item)
     const group = getGroupId(item)
     outData._insert({ id, x, y, rank, group })
