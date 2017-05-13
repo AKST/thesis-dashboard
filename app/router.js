@@ -17,6 +17,7 @@ Router.map(function() {
   this.route('vis', { path: '/visualisation' }, function () {
     this.route('scatter');
     this.route('versions');
+    this.route('bar');
   });
 });
 

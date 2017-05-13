@@ -1,0 +1,41 @@
+<div local-class="visualisation-split">
+  {{#if filtered.hasData}}
+    {{component graph-component-name local-class="graph"
+        selectNode=(action (mut selectedResultId))
+        lines=filtered.lines
+        bounds=selectedBounds
+        entries=filtered.entries}}
+  {{else}}
+    <div local-class="no-data">
+      <p local-class="no-data-message"> No data </p>
+    </div>
+  {{/if}}
+  <div local-class="node-i">
+    {{info/-range-description selectedBounds.y title="Time Range" local-class="node-i_entry"}}
+    {{info/-range-description selectedBounds.x title="Size Range" local-class="node-i_entry" truncation=0}}
+    {{#if selectedResult}}
+      {{#info/-labeled "Package" selectedResult.package local-class="node-i_entry" as |pkg|}}
+        {{#link-to "package.show" pkg.id local-class="entry-value-link"}}{{pkg.name}}{{/link-to}}
+      {{/info/-labeled}}
+      {{info/-labeled "GHC Version"  selectedResult.ghcVersion local-class="node-i_entry"}}
+      {{info/-labeled "File Size"    selectedResult.fileSize   local-class="node-i_entry"}}
+      {{info/-labeled "Compile Time" selectedResult.fileSize   local-class="node-i_entry"}}
+    {{else}}
+      <p local-class="node-i_entry">
+        No node selected
+      </p>
+    {{/if}}
+  </div>
+</div>
+
+{{#if currentScript}}
+  <div local-class="meta">
+    <p local-class='description'>
+      <strong>Tags:</strong>
+      <em>{{format-tags currentScript.tags item-class=classes.tag}}</em>
+    </p>
+    {{#link-to 'script.show' currentScript.id local-class="script-link"}}
+      View Script
+    {{/link-to}}
+  </div>
+{{/if}}

@@ -1,0 +1,103 @@
+@value --border-width from 'ui/styles/dimensions';
+@value --unit from 'ui/styles/dimensions';
+
+@value --base-black from 'ui/styles/colors';
+@value --base-white from 'ui/styles/colors';
+@value --ff-mono from 'ui/styles/typography';
+
+.visualisation-split {
+  min-height: calc(450px - 1rem);
+  max-width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 1rem;
+  z-index: 1;
+}
+
+.node-i {
+  composes: base-text from 'ui/styles/typography';
+  box-sizing: border-box;
+  background: --base-black;
+  color: --base-white;
+  flex-shrink: 1;
+  width: 100%;
+  padding: 1rem;
+  max-height: calc(100% - 1rem);
+  margin-bottom: 1rem;
+  text-align: right;
+}
+
+.node-i_entry {
+  composes: base-text from 'ui/styles/typography';
+  line-height: 1.5;
+  color: --base-white;
+  margin: 0;
+
+  & + .node-i_entry {
+    margin-top: --unit;
+  }
+}
+
+.entry-value {
+  color: --base-white;
+  font-weight: 300;
+}
+
+.entry-value-link {
+  composes: base-link from 'ui/styles/typography';
+  composes: entry-value;
+  --typography-text-color: --base-white;
+
+  &:hover {
+    composes: text-underline from 'ui/styles/typography';
+  }
+}
+
+.meta {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  font-family: --ff-mono;
+  padding-top: --unit;
+  border-top: --border-width --base-black solid;
+}
+
+.description {
+  composes: base-text from 'ui/styles/typography';
+  margin: 0;
+}
+
+.script-link {
+  composes: base-link from 'ui/styles/typography';
+  font-weight: 900;
+}
+
+.tag {
+  padding-left: --unit;
+  &::before {
+    content: '#';
+  }
+}
+
+.graph-location {
+  min-height: 100%;
+  min-width: 900px;
+}
+
+.graph {
+  composes: graph-location;
+}
+
+.no-data {
+  composes: graph-location;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.no-data-message {
+  composes: base-text from 'ui/styles/typography';
+  font-family: --ff-mono;
+  font-size: 3em;
+}

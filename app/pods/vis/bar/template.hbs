@@ -1,0 +1,17 @@
+{{#layout/-graph-page data fileExtension=fileExtension scriptHash=scriptHash as |page|}}
+
+  {{! control panel for graph options }}
+  {{#page.controls as |layout|}}
+    {{#layout.control-row as |row|}}
+      {{#row.label text="File Type"}}{{row.fileTypes}}{{/row.label}}
+      {{#row.label text="Script"}}{{row.scripts}}{{/row.label}}
+    {{/layout.control-row}}
+    {{#layout.control-row as |row|}}
+      {{#row.label text="Time"}}{{row.timeRange}}{{/row.label}}
+    {{/layout.control-row}}
+  {{/page.controls}}
+
+  {{! body of graph page }}
+  {{page.graphBody graph-component-name='graph/-spacial-regression'}}
+{{/layout/-graph-page}}
+
