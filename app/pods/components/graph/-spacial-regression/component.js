@@ -130,7 +130,8 @@ export default Component.extend({
         .attr('r', circleRadius)
         .on('mouseover', d => this.get('_selectNode')(d.id))
 
-    const xTitleX = (width / 2) + (margin * 1.5)
+    // generate the label for X Axis
+    const xTitleX = (width / 2) + (margin * .5)
     const xTitleY = height + (margin * 1.75)
     chart.append('text')
       .attr('text-anchor', 'middle')
@@ -138,6 +139,7 @@ export default Component.extend({
       .attr('class', styles.axis_label)
       .text(bounds.x.description)
 
+    // generate the label for Y Axis
     const yTitleX = margin * 0.75
     const yTitleY = (height / 2) + margin
     chart.append('text')

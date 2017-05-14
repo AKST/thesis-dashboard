@@ -19,7 +19,7 @@ export default Ember.Component.extend({
 
   init (...args) {
     this._super(...args)
-    this.set('colors', pallet(['3', '7', 'b', 'f']))
+    this.set('colors', pallet(['0', '5', 'a', 'f']))
   },
 
   colorPicker (id) {
