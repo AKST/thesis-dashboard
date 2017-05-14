@@ -23,6 +23,16 @@
   composes: axis from graphs;
 }
 
+.y_axis > :global(.domain) {
+  stroke-width: 0;
+}
+
+.y_axis > :global(.tick > line) {
+  stroke-width: 1px;
+  stroke-dasharray: 2,2;
+  opacity: 0.5;
+}
+
 .x_axis > :global(.tick) > text {
   font-size: 0.6rem;
   transform: rotate(-7deg) translateY(5px);

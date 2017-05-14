@@ -110,7 +110,8 @@ export default Component.extend({
     main.append('g')
       .attr('transform', 'translate(0,0)')
       .attr('class', styles.y_axis)
-      .call(axisLeft(yScale))
+      .call(axisLeft(yScale)
+        .tickSize(-width))
 
     main.append('svg:g').selectAll(styles.data_point)
       .data(items).enter().append('svg:circle')

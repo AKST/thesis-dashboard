@@ -38,8 +38,8 @@ export default Ember.Controller.extend({
     if (packageId == null) {
       const normalised = toDataPoints(items, xConfig, yConfig, rank, grouping)
       const { x, y } = normalised.bounds
-      if (x instanceof LinearRange) x.acknowledge(0)
-      if (y instanceof LinearRange) y.acknowledge(0)
+      x.acknowledge(0)
+      y.acknowledge(0)
       return normalised
     }
     else {

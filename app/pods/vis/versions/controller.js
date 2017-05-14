@@ -40,13 +40,21 @@ export default Controller.extend({
       return result.get('ghcVersion').toString();
     }
 
-    const x = { source: project, description: 'GHC Release', ordinalRange: ghcVersionRange }
-    const y = { source: 'averageTime', description: 'Average Time (seconds)' }
+    const xConfig = { source: project, description: 'GHC Release', ordinalRange: ghcVersionRange }
+    const yConfig = { source: 'averageTime', description: 'Average Time (seconds)' }
     const group = it => it.belongsTo('package').id()
-    const filtered = packageId == null ? items
-      : items.filter(it => it.belongsTo('package').id() === packageId)
 
-    return toDataPoints(filtered, x, y, null, group)
+    if (packageId == null) {
+      const normalised = toDataPoints(items, xConfig, yConfig, null, group)
+      const { x, y } = normalised.bounds
+      y.acknowledge(0)
+      return normalised
+    }
+    else {
+      const filtered = items
+        .filter(it => it.belongsTo('package').id() === packageId)
+      return toDataPoints(filtered, xConfig, yConfig, null, group)
+    }
   },
 
   @computed('model', 'normalisedGraphData')

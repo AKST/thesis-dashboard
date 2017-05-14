@@ -8,7 +8,7 @@
 @value --base-fg from colors;
 @value line-width, margin from graphs;
 
-@value pointSize: 7px;
+@value pointSize: 5px;
 
 .root {
 
@@ -22,9 +22,20 @@
   composes: axis from graphs;
 }
 
+
 .x_axis > :global(.tick > text) {
   font-size: 1rem;
   transform: translateY(6px);
+}
+
+.y_axis > :global(.domain) {
+  stroke-width: 0;
+}
+
+.y_axis > :global(.tick > line) {
+  stroke-width: 1px;
+  stroke-dasharray: 2,2;
+  opacity: 0.5;
 }
 
 .line {

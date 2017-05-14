@@ -103,9 +103,10 @@ export default Component.extend({
       .attr('class', styles.main)
 
     const bounds = this.get('bounds')
+    const xScaleWidth = width + (margin / 2)
     const xScale = scaleLinear()
       .domain([bounds.x.min, bounds.x.max])
-      .range([0, width + (margin / 2)])
+      .range([0, xScaleWidth])
 
     const yScale = scaleLinear()
      .domain([bounds.y.min, bounds.y.max])
@@ -119,7 +120,8 @@ export default Component.extend({
     main.append('g')
       .attr('transform', 'translate(0,0)')
       .attr('class', styles.y_axis)
-      .call(axisLeft(yScale))
+      .call(axisLeft(yScale)
+        .tickSize(-xScaleWidth))
 
     main.append('svg:g').selectAll(styles.data_point)
       .data(items).enter().append('svg:circle')
