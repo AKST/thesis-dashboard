@@ -5,12 +5,6 @@ import get from 'ember-metal/get'
 
 import { toDataPoints } from 'ui/utils/graph-prep'
 
-const toOptions = (labelKey, valueKey) => (item) => {
-  const value = get(item, valueKey)
-  const label = get(item, labelKey)
-  return { value, label }
-}
-
 const ghcVersionRange = [
   '7.0.4',
   '7.2.2',
@@ -28,10 +22,16 @@ export default Controller.extend({
     selectedResultId: 'focus',
   },
 
+  store: injectService('store'),
+
   selectedResultId: null,
   scriptHash: null,
   packageFilter: null,
   filteredY: null,
+
+  groupDescriber (groupId) {
+    return this.get('store').peekRecord('package', groupId).get('name')
+  },
 
   @computed('model.results', 'packageFilter')
   normalisedGraphData (items, packageId) {

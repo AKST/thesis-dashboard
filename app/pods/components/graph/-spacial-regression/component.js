@@ -24,6 +24,7 @@ export default Component.extend({
   bounds: null,
   entries: null,
   selectNode: null,
+  colorPicker: null,
 
   _chartElement: null,
 
@@ -45,14 +46,13 @@ export default Component.extend({
     return fn != null ? fn : _default
   },
 
-
   callback: null,
 
   didInsertElement (...args) {
     this._super(...args)
     this.renderGraph()
 
-    const callback = this.renderGraph.bind(this)
+    const callback = () => Ember.run(() => this.renderGraph());
     this.set('callback', callback)
     window.addEventListener('resize', callback)
   },
@@ -125,6 +125,7 @@ export default Component.extend({
       .data(items).enter().append('svg:circle')
         .attr('cx', item => nanFallback(xScale(item.x), 0))
         .attr('cy', item => yScale(item.y))
+        .attr('style', item => `fill: ${this.colorPicker(item.group)}`)
         .attr('class', styles.data_point)
         .attr('r', circleRadius)
         .on('mouseover', d => this.get('_selectNode')(d.id))
@@ -151,9 +152,12 @@ export default Component.extend({
       .y(it => yScale(it.y))
 
     for (const l of this.get('_lines')) {
+      if (l.length < 1) continue;
+      const color = this.colorPicker(l[0].group)
       main.append('path')
         .attr('d', lineFunction(l))
         .attr('class', styles.line)
+        .attr('style', `stroke: ${color}`)
         .attr('fill', 'transparent')
         .attr('stroke-width', 2)
     }

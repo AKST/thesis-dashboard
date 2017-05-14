@@ -4,7 +4,7 @@ import get from 'ember-metal/get'
 
 function makeGrouper (groupDescription) {
   if (typeof groupDescription === 'string') {
-    return it => get(groupDescription, it)
+    return it => get(it, groupDescription)
   }
   else if (typeof groupDescription === 'function') {
     return groupDescription
@@ -13,7 +13,6 @@ function makeGrouper (groupDescription) {
     throw new Error('invalid group description')
   }
 }
-
 
 export function groupBy (groupDescription, items) {
   const result = {}
@@ -30,4 +29,26 @@ export function groupBy (groupDescription, items) {
   })
 
   return EmObject.create(result)
+}
+
+export function shuffle(input) {
+  let temporaryValue
+  let randomIndex
+  let currentIndex = input.length
+  const output = [...input]
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex -= 1
+
+    // And swap it with the current element.
+    temporaryValue = output[currentIndex]
+    output[currentIndex] = output[randomIndex]
+    output[randomIndex] = temporaryValue
+  }
+
+  return output
 }

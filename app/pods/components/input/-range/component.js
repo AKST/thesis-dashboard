@@ -54,7 +54,7 @@ const Component = Ember.Component.extend({
 
     later(() => this.calculateDimensions(), 0)
 
-    const callback = this.calculateDimensions.bind(this);
+    const callback = () => Ember.run(() => this.calculateDimensions());
     this.set('_resize_callback', callback);
     window.addEventListener('resize', callback);
   },

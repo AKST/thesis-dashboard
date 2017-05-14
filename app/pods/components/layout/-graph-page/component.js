@@ -107,17 +107,18 @@ export default Ember.Component.extend({
   /*
    * Configuration for the size range input.
    */
-  @computed('_data.results')
-  sizeRange (normalisedGraphData) {
+  @computed('_data.results', 'packageFilter')
+  sizeRange (normalisedGraphData, packageFilter) {
     const onChange = update => this.set('filteredX', update)
+    const clone = normalisedGraphData.bounds.x.clone();
     return { range: normalisedGraphData.bounds.x, onChange }
   },
 
   /*
    * Configuration for the time range input.
    */
-  @computed('_data.results')
-  timeRange (normalisedGraphData) {
+  @computed('_data.results', 'packageFilter')
+  timeRange (normalisedGraphData, packageFilter) {
     const onChange = update => this.set('filteredY', update)
     return { range: normalisedGraphData.bounds.y, onChange }
   },

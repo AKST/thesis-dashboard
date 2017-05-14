@@ -1,9 +1,23 @@
 <div local-class="visualisation-split">
+  {{#if groupDescriber}}
+    <div local-class="legend">
+      <h3 local-class="legend-title">Legend</h3>
+      <div local-class="legend-list">
+        {{#each legend as |it|}}
+          <div local-class="legend-it" style={{it.style}}>
+            <div local-class="legend-it-title">{{it.description}}</div>
+            <div local-class="legend-it-color">&nbsp;</div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  {{/if}}
   {{#if filtered.hasData}}
     {{component graph-component-name local-class="graph"
         selectNode=(action (mut selectedResultId))
         lines=filtered.lines
         bounds=filtered.bounds
+        colorPicker=(action colorPicker)
         entries=filtered.entries}}
   {{else}}
     <div local-class="no-data">
@@ -12,10 +26,10 @@
   {{/if}}
   <div local-class="node-i">
     {{#if showYBounds}}
-      {{info/-range-description selectedBounds.y title="Time Range" local-class="node-i_entry"}}
+      {{info/-range-description selectedBounds.y local-class="node-i_entry"}}
     {{/if}}
     {{#if showXBounds}}
-      {{info/-range-description selectedBounds.x title="Size Range" local-class="node-i_entry" truncation=0}}
+      {{info/-range-description selectedBounds.x local-class="node-i_entry" truncation=0}}
     {{/if}}
     {{#if selectedResult}}
       {{#info/-labeled "Package" selectedResult.package local-class="node-i_entry" as |pkg|}}
@@ -37,7 +51,7 @@
 {{#if currentScript}}
   <div local-class="meta">
     <p local-class='description'>
-      <strong>Tags:</strong>
+      <strong local-class='tag-label'>Tags:</strong>
       <em local-class="tags">
         {{format-tags currentScript.tags item-class=classes.tag}}
       </em>

@@ -8,7 +8,7 @@
 @value --base-fg from colors;
 @value line-width, margin from graphs;
 
-@value pointSize: 4px;
+@value pointSize: 7px;
 
 .root {
 

@@ -9,6 +9,11 @@ module.exports = function(defaults) {
       optional: ['es7.decorators']
     },
 
+    sourcemaps: {
+      enabled: EmberApp.env() !== 'production',
+      extensions: ['js'],
+    },
+
     'ember-cli-babel': {
       includePolyfill: true
     },

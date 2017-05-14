@@ -15,6 +15,8 @@
     {{/layout.control-row}}
   {{/page.controls}}
 
-  {{page.graphBody graph-component-name='graph/-spacial-regression'}}
+  {{page.graphBody
+      groupDescriber=(action groupDescriber)
+      graph-component-name='graph/-spacial-regression'}}
 {{/layout/-graph-page}}
 

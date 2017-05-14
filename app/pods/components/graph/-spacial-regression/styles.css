@@ -33,4 +33,5 @@
 
 .line {
   composes: line from graphs;
+  stroke-width: 3px;
 }

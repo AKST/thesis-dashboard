@@ -2902,6 +2902,13 @@ ember-data@^2.12.0:
     semver "^5.1.0"
     silent-error "^1.0.0"
 
+ember-diff-attrs@^0.1.2:
+  version "0.1.2"
+  resolved "https://registry.yarnpkg.com/ember-diff-attrs/-/ember-diff-attrs-0.1.2.tgz#47bbe6141786fa554ac543b4622a9928e7168cf6"
+  dependencies:
+    ember-cli-babel "^5.1.7"
+    ember-weakmap "2.0.0"
+
 ember-export-application-global@^1.0.5:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/ember-export-application-global/-/ember-export-application-global-1.1.1.tgz#f257d5271268932a89d7392679ce4db89d7154af"
@@ -3016,6 +3023,12 @@ ember-try@^0.2.9:
     rsvp "^3.0.17"
     semver "^5.1.0"
     sync-exec "^0.6.2"
+
+ember-weakmap@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/ember-weakmap/-/ember-weakmap-2.0.0.tgz#71c6819a8bfd0b077ae17ca1d9053fc5db06e4ac"
+  dependencies:
+    ember-cli-babel "^5.1.6"
 
 ember-welcome-page@^3.0.0:
   version "3.0.0"

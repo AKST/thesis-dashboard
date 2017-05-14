@@ -4,7 +4,6 @@ const Component = Ember.Component.extend({
   localClassNames: ['root'],
   sep: ' - ',
   range: null,
-  title: null,
   truncation: 3,
 })
 

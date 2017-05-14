@@ -1,5 +1,5 @@
-{{#if title}}
-  <strong local-class="title">{{title}}</strong>
+{{#if range.description}}
+  <strong local-class="title">{{range.description}}</strong>
 {{/if}}
 <div local-class="range">
   <span local-class="min">{{truncate-decimal range.min places=truncation}}</span>

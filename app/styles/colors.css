@@ -2,8 +2,8 @@
 @value --base-white: #fff;
 @value --base-red: #ff312E;
 
-@value --base-bg: --base-red;
-@value --base-fg: --base-white;
+@value --base-bg: --base-white;
+@value --base-fg: --base-black;
 @value --base-border: --base-fg;
 
 .color-configable {

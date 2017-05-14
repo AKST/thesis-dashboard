@@ -12,7 +12,15 @@
 @value --base-bg from colors;
 @value --ff-mono from typography;
 
+@value --side-item-width: 205px;
+
+.root {
+  position: relative;
+  max-width: 100%;
+}
+
 .visualisation-split {
+  max-width: 100%;
   min-height: calc(450px - 1rem);
   max-width: 100%;
   position: relative;
@@ -22,14 +30,51 @@
   z-index: 1;
 }
 
+.legend {
+  box-sizing: border-box;
+  padding: --unit;
+  max-width: --side-item-width;
+  min-width: --side-item-width;
+  margin-top: resolve(--unit * 2);
+  margin-bottom: resolve(--unit * 3);
+  border: --border-width var(--color-border) dashed;
+}
+
+.legend-title {
+  composes: base-text from typography;
+  font-size: resolve(--unit * 1.5);
+  margin-bottom: --unit;
+}
+
+.legend-it {
+  display: flex;
+  justify-content: space-between;
+
+  & + .legend-it {
+    margin-top: 0.3em;
+  }
+}
+
+.legend-it-color {
+  background-color: var(--legend-color);
+  height: 1em;
+  display: block;
+  width: 3em;
+}
+
+.legend-it-title {
+  --color-border: var(--legend-color);
+  composes: base-text from typography;
+}
+
 .node-i {
   composes: base-text from typography;
   composes: color-inverse from colors;
 
   box-sizing: border-box;
   flex-shrink: 1;
-  max-width: 205px;
-  min-width: 205px;
+  max-width: --side-item-width;
+  min-width: --side-item-width;
   padding: 1rem;
   max-height: calc(100% - 1rem);
   margin-bottom: 1rem;
@@ -88,7 +133,7 @@
 
 .graph-location {
   min-height: 100%;
-  min-width: 900px;
+  /* min-width: 900px; */
 }
 
 .graph {
@@ -99,6 +144,7 @@
 .no-data {
   composes: graph-location;
   display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
 }

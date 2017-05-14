@@ -1,10 +1,10 @@
-import router from 'ui/utils/router';
+import colours from 'ui/utils/colours';
 import { module, test } from 'qunit';
 
-module('Unit | Utility | router');
+module('Unit | Utility | colours');
 
 // Replace this with your real tests.
 test('it works', function(assert) {
-  let result = router();
+  let result = colours();
   assert.ok(result);
 });

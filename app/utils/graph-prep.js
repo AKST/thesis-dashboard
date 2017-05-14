@@ -27,8 +27,8 @@ export class NormalisedArray {
   }
 
   filter (predicate) {
-    const x = this._xRange._freshCopy()
-    const y = this._yRange._freshCopy()
+    const x = this._xRange.freshCopy()
+    const y = this._yRange.freshCopy()
     const instance = new NormalisedArray(x, y)
 
     for (const item of this._entries.filter(predicate)) {

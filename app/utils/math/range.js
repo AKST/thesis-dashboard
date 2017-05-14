@@ -15,7 +15,7 @@ export class OrdinalRange extends Range {
     this.domain = domain;
   }
 
-  acknowledge (value) {
+  acknowledge () {
 
   }
 
@@ -25,6 +25,14 @@ export class OrdinalRange extends Range {
 
   containsValue (value) {
     return this.domain.includes(value);
+  }
+
+  freshCopy () {
+    return new OrdinalRange(this.description, this.domain)
+  }
+
+  clone () {
+    return this.freshCopy();
   }
 }
 
@@ -55,7 +63,7 @@ export class LinearRange extends Range {
   }
 
   intersectPercentage (min, max) {
-    const copy = this._freshCopy()
+    const copy = this.freshCopy()
     copy.min = this.min + (this.difference * min)
     copy.max = this.min + (this.difference * max)
     return copy
@@ -65,8 +73,15 @@ export class LinearRange extends Range {
     return this.max - this.min
   }
 
-  _freshCopy () {
+  freshCopy () {
     return new LinearRange(this.description)
+  }
+
+  clone () {
+    const copy = this.freshCopy();
+    copy.min = this.min;
+    copy.max = this.max;
+    return copy;
   }
 }
 
