@@ -22,9 +22,15 @@
   fill: --base-fg;
 }
 
-.axis :global :matches(.tick > line, .domain)  {
+.axis > :global(:matches(.tick > line, .domain))  {
   stroke: --base-fg;
   stroke-width: line-width;
+}
+
+.axis > :global(.tick > text) {
+  fill: --base-fg;
+  font-family: --ff-mono;
+  stroke: none;
 }
 
 .data_point {

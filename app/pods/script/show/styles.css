@@ -1,6 +1,7 @@
 @value dimensions: 'ui/styles/dimensions';
 @value typography: 'ui/styles/typography';
 @value colors: 'ui/styles/colors';
+@value tags: 'ui/styles/reuse/script-tags';
 
 @value --margin-hspace from dimensions;
 @value --margin-vspace from dimensions;
@@ -36,24 +37,11 @@
 }
 
 .tags {
-  display: flex;
-  padding: --margin-vspace 0 0;
+  composes: tag-list from tags;
 }
 
 .tag {
-  composes: base-text from typography;
-  composes: color-inverse from colors;
-
-  font-family: --ff-mono;
-  padding: resolve(--margin-vspace / 4) resolve(--margin-hspace / 2);
-
-  &::before {
-    content: '#';
-  }
-
-  & + & {
-    margin-left: --margin-hspace;
-  }
+  composes: tag from tags;
 }
 
 .meta {

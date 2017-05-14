@@ -1,11 +1,13 @@
 import Ember from 'ember';
 import computed from 'ember-computed-decorators'
 import injectService from 'ember-service/inject'
+import classes from './styles';
 
 import { LinearRange } from 'ui/utils/math/range'
 
 export default Ember.Component.extend({
   store: injectService('store'),
+  classes,
 
   localClassNames: ['root'],
   selectedResultId: null,

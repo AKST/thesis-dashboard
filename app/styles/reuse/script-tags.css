@@ -1,0 +1,28 @@
+@value dimensions: 'ui/styles/dimensions';
+@value typography: 'ui/styles/typography';
+@value colors: 'ui/styles/colors';
+
+@value --margin-hspace from dimensions;
+@value --margin-vspace from dimensions;
+@value --ff-mono from typography;
+
+.tag-list {
+  display: flex;
+  padding: --margin-vspace 0 0;
+}
+
+.tag {
+  composes: base-text from typography;
+  composes: color-inverse from colors;
+
+  font-family: --ff-mono;
+  padding: resolve(--margin-vspace / 4) resolve(--margin-hspace / 2);
+
+  &::before {
+    content: '#';
+  }
+
+  & + & {
+    margin-left: --margin-hspace;
+  }
+}

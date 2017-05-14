@@ -1,6 +1,9 @@
 @value dimensions: 'ui/styles/dimensions';
 @value typography: 'ui/styles/typography';
+@value info: 'ui/pods/components/info/-labeled/styles';
+@value tags: 'ui/styles/reuse/script-tags';
 @value colors: 'ui/styles/colors';
+
 
 @value --border-width from dimensions;
 @value --unit from dimensions;
@@ -45,14 +48,11 @@
   }
 }
 
-.entry-value {
-  composes: color-inverse from colors;
-  font-weight: 300;
-}
-
 .entry-value-link {
   composes: base-link from typography;
-  composes: entry-value;
+  composes: value from info;
+  composes: color-inverse from colors;
+
 
   &:hover {
     --color-border: var(--color-bg);
@@ -76,7 +76,7 @@
 
 .script-link {
   composes: base-link from typography;
-  font-weight: 900;
+  font-weight: 100;
 }
 
 .tag {
@@ -107,4 +107,12 @@
   composes: base-text from typography;
   font-family: --ff-mono;
   font-size: 3em;
+}
+
+.tags {
+  padding-left: 1em;
+}
+
+.tag {
+  composes: tag from tags;
 }

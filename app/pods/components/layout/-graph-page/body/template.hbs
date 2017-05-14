@@ -38,7 +38,9 @@
   <div local-class="meta">
     <p local-class='description'>
       <strong>Tags:</strong>
-      <em>{{format-tags currentScript.tags item-class=classes.tag}}</em>
+      <em local-class="tags">
+        {{format-tags currentScript.tags item-class=classes.tag}}
+      </em>
     </p>
     {{#link-to 'script.show' currentScript.id local-class="script-link"}}
       View Script
