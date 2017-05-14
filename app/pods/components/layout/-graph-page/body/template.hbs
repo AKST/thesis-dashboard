@@ -3,7 +3,7 @@
     {{component graph-component-name local-class="graph"
         selectNode=(action (mut selectedResultId))
         lines=filtered.lines
-        bounds=selectedBounds
+        bounds=filtered.bounds
         entries=filtered.entries}}
   {{else}}
     <div local-class="no-data">
@@ -11,15 +11,21 @@
     </div>
   {{/if}}
   <div local-class="node-i">
-    {{info/-range-description selectedBounds.y title="Time Range" local-class="node-i_entry"}}
-    {{info/-range-description selectedBounds.x title="Size Range" local-class="node-i_entry" truncation=0}}
+    {{#if showYBounds}}
+      {{info/-range-description selectedBounds.y title="Time Range" local-class="node-i_entry"}}
+    {{/if}}
+    {{#if showXBounds}}
+      {{info/-range-description selectedBounds.x title="Size Range" local-class="node-i_entry" truncation=0}}
+    {{/if}}
     {{#if selectedResult}}
       {{#info/-labeled "Package" selectedResult.package local-class="node-i_entry" as |pkg|}}
         {{#link-to "package.show" pkg.id local-class="entry-value-link"}}{{pkg.name}}{{/link-to}}
       {{/info/-labeled}}
-      {{info/-labeled "GHC Version"  selectedResult.ghcVersion local-class="node-i_entry"}}
-      {{info/-labeled "File Size"    selectedResult.fileSize   local-class="node-i_entry"}}
-      {{info/-labeled "Compile Time" selectedResult.fileSize   local-class="node-i_entry"}}
+      {{info/-labeled "GHC Version"  selectedResult.ghcVersion  local-class="node-i_entry"}}
+      {{info/-labeled "File Size"    selectedResult.fileSize    local-class="node-i_entry"}}
+      {{info/-labeled "Compile Time"
+          (truncate-decimal selectedResult.averageTime places=2)
+          local-class="node-i_entry"}}
     {{else}}
       <p local-class="node-i_entry">
         No node selected

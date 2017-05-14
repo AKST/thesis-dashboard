@@ -1,7 +1,5 @@
-@value --unit from 'ui/styles/dimensions';
 
-.graph {
-  padding-top: --unit;
-  box-sizing: border-box;
-  min-height: 450px;
+.panel {
+  position: relative;
+  z-index: 10;
 }

@@ -1,0 +1,9 @@
+@value --base-bg, --base-fg, --base-border from 'ui/styles/colors';
+
+:global html {
+  --color-bg: --base-bg;
+  --color-fg: --base-fg;
+  --color-border: --base-border;
+  background-color: var(--color-bg);
+  color: var(--color-fg);
+}

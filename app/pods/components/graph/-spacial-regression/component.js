@@ -45,9 +45,21 @@ export default Component.extend({
     return fn != null ? fn : _default
   },
 
+
+  callback: null,
+
   didInsertElement (...args) {
     this._super(...args)
     this.renderGraph()
+
+    const callback = this.renderGraph.bind(this)
+    this.set('callback', callback)
+    window.addEventListener('resize', callback)
+  },
+
+  willDestoryElement (...args) {
+    this._super(...args)
+    window.removeElementListener('resize', this.get('callback'));
   },
 
   didUpdateAttrs (...args) {

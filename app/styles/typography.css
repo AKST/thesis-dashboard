@@ -1,6 +1,9 @@
-@value --margin-vspace, --border-width from 'ui/styles/dimensions';
+@value dimensions: 'ui/styles/dimensions';
+@value colors: 'ui/styles/colors';
 
-@value --base-black from 'ui/styles/colors';
+@value --margin-vspace, --border-width from dimensions;
+
+@value --base-black from colors;
 
 @value --ff-default: Helvetica, sans-serif;
 @value --ff-header: --ff-default;
@@ -14,18 +17,18 @@
 
 .base-text {
   box-sizing: border-box;
-  --typography-text-color: --base-black;
   font-family: --ff-default;
   font-size: --fsize-text;
   line-height: 1;
   text-decoration: none;
   margin: 0;
-  color: var(--typography-text-color);
+  color: var(--color-fg);
 }
 
 .text-underline {
   position: relative;
   &::after {
+    --color-border: inherit;
     position: absolute;
     display: block;
     content: ' ';
@@ -33,7 +36,7 @@
     width: 100%;
     bottom: resolve(-1 * --border-width);
     left: 0;
-    background-color: var(--typography-text-color);
+    background-color: var(--color-border);
   }
 }
 

@@ -1,0 +1,32 @@
+@value colors: 'ui/styles/colors';
+@value typography: 'ui/styles/typography';
+
+@value --base-fg from colors;
+@value --ff-mono from typography;
+
+@value line-width: 2px;
+@value margin: 50px;
+
+.axis {
+  stroke: --base-fg;
+}
+
+.line {
+  stroke: color(--base-fg alpha(50%));
+  stroke-width: line-width;
+}
+
+.axis_label {
+  composes: base-text from typography;
+  font-family: --ff-mono;
+  fill: --base-fg;
+}
+
+.axis :global :matches(.tick > line, .domain)  {
+  stroke: --base-fg;
+  stroke-width: line-width;
+}
+
+.data_point {
+  fill: --base-fg;
+}

@@ -1,30 +1,29 @@
-@value --margin-hspace from 'ui/styles/dimensions';
-@value --margin-vspace from 'ui/styles/dimensions';
-@value --border-width from 'ui/styles/dimensions';
+@value dimensions: 'ui/styles/dimensions';
+@value typography: 'ui/styles/typography';
+@value colors: 'ui/styles/colors';
 
-@value --base-black from 'ui/styles/colors';
-@value --base-white from 'ui/styles/colors';
+@value --margin-hspace from dimensions;
+@value --margin-vspace from dimensions;
+@value --border-width from dimensions;
 
-@value --fweight-strong from 'ui/styles/typography';
-@value --ff-mono from 'ui/styles/typography';
+@value --base-fg from colors;
+@value --base-bg from colors;
+
+@value --fweight-strong from typography;
+@value --ff-mono from typography;
 
 
 .title {
-  composes: base-subheader from 'ui/styles/typography';
-}
-
-.invert-colors {
-  background: --base-black;
-  color: --base-white;
+  composes: base-subheader from typography;
 }
 
 @value repr-hpad: resolve(2 * --margin-hspace);
 
 .repr {
-  composes: invert-colors;
+  composes: color-inverse from colors;
   box-sizing: border-box;
   margin: --margin-vspace 0 0;
-  border: repr-hpad --base-black solid;
+  border: repr-hpad var(--color-border) solid;
   overflow-x: scroll;
   max-width: calc(100% - repr-hpad);
   max-height: 60vh;
@@ -42,8 +41,9 @@
 }
 
 .tag {
-  composes: base-text from 'ui/styles/typography';
-  composes: invert-colors;
+  composes: base-text from typography;
+  composes: color-inverse from colors;
+
   font-family: --ff-mono;
   padding: resolve(--margin-vspace / 4) resolve(--margin-hspace / 2);
 
@@ -61,7 +61,7 @@
 }
 
 .meta-pair {
-  composes: base-text from 'ui/styles/typography';
+  composes: base-text from typography;
   & + & {
     padding: resolve(--margin-vspace / 2) 0;
   }

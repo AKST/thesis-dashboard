@@ -23,14 +23,12 @@ const ghcVersionRange = [
 
 export default Controller.extend({
   queryParams: {
-    fileExtension: 'fext',
     scriptHash: 'hash',
     packageFilter: 'package',
+    selectedResultId: 'focus',
   },
 
-  store: injectService('store'),
-
-  fileExtension: null,
+  selectedResultId: null,
   scriptHash: null,
   packageFilter: null,
   filteredY: null,
@@ -51,69 +49,14 @@ export default Controller.extend({
     return toDataPoints(filtered, x, y, null, group)
   },
 
-  /*
-   * Generates a subset of data of normalisedGraphData filtered
-   * on constraints defined by the range sliders.
-   */
-  @computed('normalisedGraphData', 'filteredY')
-  filteredGraphData (items, timeFilter) {
-    return items.intersect(null, timeFilter)
-  },
-
-  /*
-   * Configuration for the script selector drop down
-   */
-  @computed('model.scripts')
-  scriptSelect (scripts) {
-    const options = scripts.sortBy('date').map(toOptions('lastModified', 'id'));
-    const update = ({ value }) => this.set('scriptHash', value)
-    const description = 'Select a script';
-    const initial = options.findBy('value', this.get('scriptHash'))
-    return { options, update, description, initial };
-  },
-
-  /*
-   * Configuration for the package selector
-   */
-  @computed('model.packages')
-  packageSelect (packages) {
-    // default option should be at the start
-    const options = [{ value: null, label: 'None' }]
-      .concat(packages
-        .sortBy('name')
-        .map(toOptions('name', 'id')))
-    const update = ({ value }) => this.set('packageFilter', value)
-    const description = 'Select a Package';
-    const initial = options.findBy('value', this.get('packageFilter'))
-    return { options, update, description, initial };
-  },
-
-  /*
-   * Configuration for the file type selector drop down
-   */
-  @computed('model.fileTypes')
-  fileTypeSelect (fileTypes) {
-    const options = fileTypes.map(toOptions('fileType', 'fileType'));
-    const update = ({ value }) => this.set('fileExtension', value)
-    const description = 'Select a file type';
-    const initial = options.findBy('value', this.get('fileExtension'))
-    return { options, update, description, initial };
-  },
-
-  /*
-   * Configuration for the time range input.
-   */
-  @computed('normalisedGraphData')
-  timeRange (normalisedGraphData) {
-    const onChange = update => this.set('filteredY', update)
-    return { range: normalisedGraphData.bounds.y, onChange }
-  },
-
-  /*
-   * Configuration for the combined graph control input
-   */
-  @computed('scriptSelect', 'fileTypeSelect', 'packageSelect', 'timeRange')
-  controlConfig (script, fileType, packages, time) {
-    return { script, fileType, packages, time }
+  @computed('model', 'normalisedGraphData')
+  data (model, results) {
+    // i know this is redudant but I'm just being explit right now
+    return Ember.Object.create({
+      results,
+      scripts: get(model, 'scripts'),
+      packages: get(model, 'packages'),
+      fileTypes: get(model, 'fileTypes'),
+    })
   },
 });

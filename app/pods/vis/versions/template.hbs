@@ -1,15 +1,18 @@
-{{#layout/-graph-controls config=controlConfig local-class="panel" as |layout|}}
-  {{#layout.control-row as |row|}}
-    {{#row.label text="Time"}}{{row.timeRange}}{{/row.label}}
-  {{/layout.control-row}}
-  {{#layout.control-row as |row|}}
-    {{#row.label text="Script"}}{{row.scripts}}{{/row.label}}
-    {{#row.label text="Package"}}{{row.packages}}{{/row.label}}
-  {{/layout.control-row}}
-{{/layout/-graph-controls}}
+{{#layout/-graph-page data
+      selectedResultId=selectedResultId
+      packageFilter=packageFilter
+      scriptHash=scriptHash
+    as |page|}}
 
-{{graph/-version-comparison
-    lines=filteredGraphData.lines
-    entries=filteredGraphData.entries
-    bounds=filteredGraphData.bounds
-    local-class="graph"}}
+  {{#page.controls local-class="panel" as |layout|}}
+    {{#layout.control-row as |row|}}
+      {{#row.label text="Time"}}{{row.timeRange}}{{/row.label}}
+    {{/layout.control-row}}
+    {{#layout.control-row as |row|}}
+      {{#row.label text="Script"}}{{row.scripts}}{{/row.label}}
+      {{#row.label text="Package"}}{{row.packages}}{{/row.label}}
+    {{/layout.control-row}}
+  {{/page.controls}}
+
+  {{page.graphBody graph-component-name='graph/-version-comparison'}}
+{{/layout/-graph-page}}

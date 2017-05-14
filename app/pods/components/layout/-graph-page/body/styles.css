@@ -1,9 +1,13 @@
-@value --border-width from 'ui/styles/dimensions';
-@value --unit from 'ui/styles/dimensions';
+@value dimensions: 'ui/styles/dimensions';
+@value typography: 'ui/styles/typography';
+@value colors: 'ui/styles/colors';
 
-@value --base-black from 'ui/styles/colors';
-@value --base-white from 'ui/styles/colors';
-@value --ff-mono from 'ui/styles/typography';
+@value --border-width from dimensions;
+@value --unit from dimensions;
+
+@value --base-fg from colors;
+@value --base-bg from colors;
+@value --ff-mono from typography;
 
 .visualisation-split {
   min-height: calc(450px - 1rem);
@@ -16,12 +20,13 @@
 }
 
 .node-i {
-  composes: base-text from 'ui/styles/typography';
+  composes: base-text from typography;
+  composes: color-inverse from colors;
+
   box-sizing: border-box;
-  background: --base-black;
-  color: --base-white;
   flex-shrink: 1;
-  width: 100%;
+  max-width: 205px;
+  min-width: 205px;
   padding: 1rem;
   max-height: calc(100% - 1rem);
   margin-bottom: 1rem;
@@ -29,9 +34,10 @@
 }
 
 .node-i_entry {
-  composes: base-text from 'ui/styles/typography';
+  composes: base-text from typography;
+  composes: color-inverse from colors;
+
   line-height: 1.5;
-  color: --base-white;
   margin: 0;
 
   & + .node-i_entry {
@@ -40,17 +46,17 @@
 }
 
 .entry-value {
-  color: --base-white;
+  composes: color-inverse from colors;
   font-weight: 300;
 }
 
 .entry-value-link {
-  composes: base-link from 'ui/styles/typography';
+  composes: base-link from typography;
   composes: entry-value;
-  --typography-text-color: --base-white;
 
   &:hover {
-    composes: text-underline from 'ui/styles/typography';
+    --color-border: var(--color-bg);
+    composes: text-underline from typography;
   }
 }
 
@@ -60,16 +66,16 @@
   flex-direction: row;
   font-family: --ff-mono;
   padding-top: --unit;
-  border-top: --border-width --base-black solid;
+  border-top: --border-width --base-fg solid;
 }
 
 .description {
-  composes: base-text from 'ui/styles/typography';
+  composes: base-text from typography;
   margin: 0;
 }
 
 .script-link {
-  composes: base-link from 'ui/styles/typography';
+  composes: base-link from typography;
   font-weight: 900;
 }
 
@@ -87,6 +93,7 @@
 
 .graph {
   composes: graph-location;
+  width: 100%;
 }
 
 .no-data {
@@ -97,7 +104,7 @@
 }
 
 .no-data-message {
-  composes: base-text from 'ui/styles/typography';
+  composes: base-text from typography;
   font-family: --ff-mono;
   font-size: 3em;
 }

@@ -7,7 +7,7 @@
   position: relative;
   @media (--desktopStd) {
     margin: 0 auto;
-    max-width: --desktopContainerWidth;
+    max-width: calc(--desktopContainerWidth);
     padding: 0 --margin-hspace;
   }
 }

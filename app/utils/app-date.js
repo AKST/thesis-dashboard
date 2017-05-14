@@ -31,6 +31,14 @@ export default class AppDate {
   }
 
   toString() {
-    return `${this._monthDay}:${this._month}:${this._year}`
+    const date = new Date(
+      this._year,
+      this._month,
+      this._monthDay,
+      this._hour,
+      this._minute,
+      this._second,
+    );
+    return date.toLocaleString();
   }
 }

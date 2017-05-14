@@ -1,8 +1,11 @@
-@value --ff-mono from 'ui/styles/typography';
+@value typography: 'ui/styles/typography';
+@value colors: 'ui/styles/colors';
+@value graphs: 'ui/styles/reuse/graphs';
 
-@value --base-black from 'ui/styles/colors';
+@value --ff-mono from typography;
+@value --base-fg from colors;
 
-@value margin: 50px;
+@value line-width, margin from graphs;
 
 .root {
   width: 100%;
@@ -16,23 +19,18 @@
 
 }
 
-.x_axis {
-
-}
-
-.y_axis {
-
+.x_axis, .y_axis {
+  composes: axis from graphs;
 }
 
 .data_point {
-
+  composes: data_point from graphs;
 }
 
 .axis_label {
-  composes: base-text from 'ui/styles/typography';
-  font-family: --ff-mono;
+  composes: axis_label from graphs;
 }
 
 .line {
-  stroke: color(--base-black alpha(50%));
+  composes: line from graphs;
 }

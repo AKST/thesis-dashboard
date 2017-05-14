@@ -39,6 +39,8 @@ const Component = Ember.Component.extend({
   _actualWidth: 0,
   _actualHeight: 0,
 
+  _resize_callback: null,
+
   // life time hooks
 
   didInsertElement (...args) {
@@ -51,6 +53,15 @@ const Component = Ember.Component.extend({
     }
 
     later(() => this.calculateDimensions(), 0)
+
+    const callback = this.calculateDimensions.bind(this);
+    this.set('_resize_callback', callback);
+    window.addEventListener('resize', callback);
+  },
+
+  willDestoryElement (...args) {
+    this._super(...args);
+    window.removeEventListener('resize', callback);
   },
 
   // calculations

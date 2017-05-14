@@ -1,2 +1,19 @@
 @value --base-black: #000;
 @value --base-white: #fff;
+@value --base-red: #ff312E;
+
+@value --base-bg: --base-red;
+@value --base-fg: --base-white;
+@value --base-border: --base-fg;
+
+.color-configable {
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+  border-color: var(--color-border);
+}
+
+.color-inverse {
+  color: var(--color-bg);
+  background-color: var(--color-fg);
+  border-color: var(--color-border);
+}

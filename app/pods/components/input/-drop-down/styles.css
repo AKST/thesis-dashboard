@@ -1,16 +1,20 @@
-@value --unit from 'ui/styles/dimensions';
-@value --border-width from 'ui/styles/dimensions';
+@value dimensions: 'ui/styles/dimensions';
+@value typography: 'ui/styles/typography';
+@value colors: 'ui/styles/colors';
 
-@value --ff-mono from 'ui/styles/typography';
+@value --unit from dimensions;
+@value --border-width from dimensions;
 
-@value --base-black from 'ui/styles/colors';
-@value --base-white from 'ui/styles/colors';
+@value --ff-mono from typography;
+
+@value --base-fg from colors;
+@value --base-bg from colors;
 
 @value initBorder: resolve(--unit / 2);
 
 .root {
-  --color-a: --base-black;
-  --color-b: --base-white;
+  --color-a: --base-fg;
+  --color-b: --base-bg;
   --ff-label: --ff-mono;
   --ff-option: --ff-mono;
   --border: initBorder;

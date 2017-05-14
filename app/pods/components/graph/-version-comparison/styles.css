@@ -1,12 +1,14 @@
-@value --ff-mono from 'ui/styles/typography';
+@value dimensions from 'ui/styles/dimensions';
+@value typography: 'ui/styles/typography';
+@value colors: 'ui/styles/colors';
+@value graphs: 'ui/styles/reuse/graphs';
 
-@value --border-width from 'ui/styles/dimensions';
 
-@value --base-black from 'ui/styles/colors';
+@value --ff-mono from typography;
+@value --base-fg from colors;
+@value line-width, margin from graphs;
 
 @value pointSize: 4px;
-
-@value margin: 50px;
 
 .root {
 
@@ -16,16 +18,18 @@
 
 }
 
+.x_axis, .y_axis {
+  composes: axis from graphs;
+}
+
 .line {
-  stroke: color(--base-black alpha(30%));
-  stroke-width: --border-width;
+  composes: line from graphs;
 }
 
 .axis_label {
-  composes: base-text from 'ui/styles/typography';
-  font-family: --ff-mono;
+  composes: axis_label from graphs;
 }
 
 .data_point {
-
+  composes: data_point from graphs;
 }

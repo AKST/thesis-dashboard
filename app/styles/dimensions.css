@@ -1,5 +1,3 @@
-@value --desktopContainerWidth: 1100px;
-
 @value --unit: 16px;
 
 @value --border-width: 2px;
@@ -7,3 +5,4 @@
 @value --margin-hspace: --unit;
 @value --margin-vspace: --unit;
 
+@value --desktopContainerWidth: 100vw - (2 * --unit);

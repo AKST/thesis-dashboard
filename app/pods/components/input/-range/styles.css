@@ -18,13 +18,13 @@
 
 .circle {
   fill: transparent;
-  stroke: --base-black;
+  stroke: var(--color-fg);
   pointer-events: all;
   cursor: move;
 }
 
 .stroke {
-  stroke: --base-black;
+  stroke: var(--color-fg);
 }
 
 .inner {

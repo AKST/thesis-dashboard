@@ -1,26 +1,32 @@
-@value --base-white, --base-black from 'ui/styles/colors';
+@value typography: 'ui/styles/typography';
+@value layout: 'ui/styles/layout';
+@value colors: 'ui/styles/colors';
+
+@value --base-fg, --base-bg from colors;
 
 .page-header {
-  composes: base-subheader from 'ui/styles/typography';
+  composes: base-subheader from typography;
 }
 
 .list {
-  composes: base-list from 'ui/styles/layout';
+  composes: base-list from layout;
   position: relative;
 }
 
 .list-item {
-  composes: base-text from 'ui/styles/typography';
-  composes: base-list-it from 'ui/styles/layout';
+  composes: base-text from typography;
+  composes: base-list-it from layout;
+  composes: color-configable from colors;
+
   width: 100%;
   display: flex;
   min-height: 2.5em;
   justify-content: space-between;
 
-  --typography-text-color: --base-black;
   &:hover {
-    background-color: --base-black;
-    --typography-text-color: --base-white;
+    --color-bg: --base-fg;
+    --color-fg: --base-bg;
+    --color-border: --base-bg;
   }
 }
 
@@ -43,5 +49,5 @@
 
 
 .list-item-text {
-  composes: text-underline from 'ui/styles/typography';
+  composes: text-underline from typography;
 }

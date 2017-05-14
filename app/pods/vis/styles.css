@@ -1,13 +1,17 @@
-@value --base-black from 'ui/styles/colors';
-@value --base-white from 'ui/styles/colors';
+@value dimensions: 'ui/styles/dimensions';
+@value typography: 'ui/styles/typography';
+@value colors: 'ui/styles/colors';
 
-@value --ff-mono from 'ui/styles/typography';
+@value --base-fg from colors;
+@value --base-bg from colors;
 
-@value --border-width from 'ui/styles/dimensions';
-@value --unit from 'ui/styles/dimensions';
+@value --ff-mono from typography;
+
+@value --border-width from dimensions;
+@value --unit from dimensions;
 
 .page-header {
-  composes: base-subheader from 'ui/styles/typography';
+  composes: base-subheader from typography;
 }
 
 .options {
@@ -17,21 +21,28 @@
 }
 
 .option {
-  composes: base-text from 'ui/styles/typography';
+  composes: base-text from typography;
+  composes: color-inverse from colors;
+  --color-fg: --base-fg;
+  --color-bg: --base-bg;
+
+  color: var(--color-bg);
+  background: var(--color-fg);
+
   font-family: --ff-mono;
   width: 100%;
   text-align: center;
-  background: --base-black;
-  color: --base-white;
   padding: --unit;
+  border: --border-width var(--color-bg) solid;
+
   & + .option {
     margin-left: --unit;
   }
 
   &:global(.active) {
+    color: var(--color-fg);
+    background: var(--color-bg);
     box-sizing: content-box;
-    background: --base-white;
-    color: --base-black;
-    border: --border-width --base-black solid;
+    border-color: var(--color-fg);
   }
 }
