@@ -1,3 +1,4 @@
+import EmObject from 'ember-object'
 import Controller from 'ember-controller'
 import injectService from 'ember-service/inject'
 import computed from 'ember-computed-decorators'
@@ -46,8 +47,7 @@ export default Controller.extend({
 
     if (packageId == null) {
       const normalised = toDataPoints(items, xConfig, yConfig, null, group)
-      const { x, y } = normalised.bounds
-      y.acknowledge(0)
+      normalised.bounds.y.acknowledge(0)
       return normalised
     }
     else {
@@ -60,7 +60,7 @@ export default Controller.extend({
   @computed('model', 'normalisedGraphData')
   data (model, results) {
     // i know this is redudant but I'm just being explit right now
-    return Ember.Object.create({
+    return EmObject.create({
       results,
       scripts: get(model, 'scripts'),
       packages: get(model, 'packages'),

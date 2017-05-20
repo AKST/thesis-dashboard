@@ -5,7 +5,6 @@ import injectService from 'ember-service/inject'
 
 import { rankSemver } from 'ui/utils/semver'
 import { toDataPoints } from 'ui/utils/graph-prep'
-import { LinearRange } from 'ui/utils/math/range'
 
 export default Ember.Controller.extend({
   queryParams: {

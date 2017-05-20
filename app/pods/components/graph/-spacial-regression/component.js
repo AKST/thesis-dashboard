@@ -1,3 +1,4 @@
+import run from 'ember-runloop'
 import Component from 'ember-component'
 import computed from 'ember-computed-decorators'
 import styles from './styles'
@@ -52,7 +53,7 @@ export default Component.extend({
     this._super(...args)
     this.renderGraph()
 
-    const callback = () => Ember.run(() => this.renderGraph());
+    const callback = () => run(() => this.renderGraph());
     this.set('callback', callback)
     window.addEventListener('resize', callback)
   },

@@ -1,16 +1,18 @@
-import uuid from 'npm:uuid'
-import Ember from 'ember'
-import styles from './styles'
-import { later } from 'ember-runloop'
+import Component from 'ember-component'
+import EmObject from 'ember-object'
+import run, { later } from 'ember-runloop'
 import computed, { observes } from 'ember-computed-decorators'
 
+import uuid from 'npm:uuid'
+
+import styles from './styles'
 import { checkKeyThenConf } from 'ui/utils/init'
 import { elementWidth, elementHeight } from 'ui/utils/dom'
 
 const initCircleState = (percent, id) =>
-  Ember.Object.create({ percent, id, x: 0, ref: `#${id}` })
+  EmObject.create({ percent, id, x: 0, ref: `#${id}` })
 
-const Component = Ember.Component.extend({
+export default Component.extend({
   localClassNames: ['root'],
 
   onChange: null,
@@ -45,8 +47,11 @@ const Component = Ember.Component.extend({
 
   didInsertElement (...args) {
     this._super(...args)
-    const el = this.get('element')
 
+    /**
+     * No need to tear these events down as they'll be gone after
+     * the component is unmounted from the page.
+     */
     for (const el of this.element.getElementsByClassName(styles.circle)) {
       const id = el.dataset.circle === 'a' ? '_a' : '_b'
       el.addEventListener('mousedown', event => this.mouseTarget(id, event))
@@ -54,14 +59,14 @@ const Component = Ember.Component.extend({
 
     later(() => this.calculateDimensions(), 0)
 
-    const callback = () => Ember.run(() => this.calculateDimensions());
+    const callback = () => run(() => this.calculateDimensions());
     this.set('_resize_callback', callback);
     window.addEventListener('resize', callback);
   },
 
   willDestoryElement (...args) {
     this._super(...args);
-    window.removeEventListener('resize', callback);
+    window.removeEventListener('resize', this.get('_resize_callback'));
   },
 
   // calculations
@@ -118,9 +123,10 @@ const Component = Ember.Component.extend({
     else return { min: b, max: a }
   },
 
-  circleRadiusWithStroke: Ember.computed('_circleR', '_circleStroke', function () {
-    return this.get('_circleR') + (this.get('_circleStroke') / 2)
-  }),
+  @computed('_circleR', '_circleStroke')
+  circleRadiusWithStroke (_circleR, _circleStroke) {
+    return _circleR + (_circleStroke / 2)
+  },
 
   // events
 
@@ -130,9 +136,9 @@ const Component = Ember.Component.extend({
   },
 
   mouseTarget (circleId, originalEvent) {
-    const element = this.get('element')
     const handler = this.redrawSlider(circleId, originalEvent)
-    const finish = () => {
+
+    const finish = function () {
       window.removeEventListener('mousemove', handler)
       window.removeEventListener('mouseup', finish)
       window.removeEventListener('mouseleave', finish)
@@ -168,10 +174,7 @@ const Component = Ember.Component.extend({
           max.get('percent')))
     }
   },
-});
-
-Component.reopenClass({
+}).reopenClass({
   positionalParams: ['config'],
-});
+})
 
-export default Component;
