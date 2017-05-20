@@ -1,5 +1,6 @@
 {{#layout/-graph-page data
       selectedResultId=selectedResultId
+      ghcVersionFilter=ghcVersion
       packageFilter=packageFilter
       fileExtension=fileExtension
       scriptHash=scriptHash as |page|}}
@@ -8,8 +9,10 @@
       {{#row.label text="File Type"}}{{row.fileTypes}}{{/row.label}}
       {{#row.label text="Script"}}{{row.scripts}}{{/row.label}}
       {{#row.label text="Package"}}{{row.packages}}{{/row.label}}
+      {{#row.label text="GHC"}}{{row.ghcFocus}}{{/row.label}}
     {{/layout.control-row}}
     {{#layout.control-row as |row|}}
+      {{row.showLines}}
       {{#row.label text="Time"}}{{row.timeRange}}{{/row.label}}
       {{#row.label text="Size"}}{{row.sizeRange}}{{/row.label}}
     {{/layout.control-row}}

@@ -4,17 +4,9 @@ import injectService from 'ember-service/inject'
 import computed from 'ember-computed-decorators'
 import get from 'ember-metal/get'
 
+import { getRange } from 'ui/utils/semver/ghc'
 import { toDataPoints } from 'ui/utils/graph-prep'
 
-const ghcVersionRange = [
-  '7.0.4',
-  '7.2.2',
-  '7.4.2',
-  '7.6.3',
-  '7.8.4',
-  '7.10.3',
-  '8.0.1',
-]
 
 export default Controller.extend({
   queryParams: {
@@ -41,8 +33,17 @@ export default Controller.extend({
       return result.get('ghcVersion').toString();
     }
 
-    const xConfig = { source: project, description: 'GHC Release', ordinalRange: ghcVersionRange }
-    const yConfig = { source: 'averageTime', description: 'Average Time (seconds)' }
+    const xConfig = {
+      source: project,
+      description: 'GHC Release',
+      ordinalRange: getRange(),
+    }
+
+    const yConfig = {
+      source: 'averageTime',
+      description: 'Average Time (seconds)',
+    }
+
     const group = it => it.belongsTo('package').id()
 
     if (packageId == null) {

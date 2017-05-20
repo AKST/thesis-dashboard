@@ -11,6 +11,7 @@ export default Ember.Component.extend({
   store: injectService('store'),
   classes,
 
+  showLines: true,
   selectedResultId: null,
   selectedBounds: null,
   currentScript: null,

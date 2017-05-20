@@ -10,6 +10,7 @@ export default Ember.Controller.extend({
   queryParams: {
     fileExtension: 'fext',
     scriptHash: 'hash',
+    ghcVersion: 'ghcVersion',
     packageFilter: 'package',
     selectedResultId: 'focus',
   },
@@ -17,6 +18,7 @@ export default Ember.Controller.extend({
   store: injectService('store'),
 
   scriptHash: null,
+  ghcVersion: null,
   fileExtension: 'hi',
   packageFilter: null,
   selectedResultId: null,
@@ -28,24 +30,25 @@ export default Ember.Controller.extend({
   /*
    * Only needs to be calculate once data is downloaded.
    */
-  @computed('model.results', 'packageFilter')
-  normalisedGraphData (items, packageId) {
+  @computed('model.results', 'packageFilter', 'ghcVersion')
+  normalisedGraphData (items, packageId, ghcVersion) {
     const xConfig = { source: 'fileSize', description: 'File Size (bytes)' }
     const yConfig = { source: 'averageTime', description: 'Avg Time (seconds)' }
     const rank = it => rankSemver(get(it, 'ghcVersion'))
     const grouping = it => it.belongsTo('package').id()
+
+    const filtered = items
+      .filter(it => !packageId || it.belongsTo('package').id() === packageId)
+      .filter(it => !ghcVersion || it.get('ghcVersion').toString() === ghcVersion)
+    const normalised = toDataPoints(filtered, xConfig, yConfig, rank, grouping)
+
     if (packageId == null) {
-      const normalised = toDataPoints(items, xConfig, yConfig, rank, grouping)
       const { x, y } = normalised.bounds
       x.acknowledge(0)
       y.acknowledge(0)
-      return normalised
     }
-    else {
-      const filtered = items
-        .filter(it => it.belongsTo('package').id() === packageId)
-      return toDataPoints(filtered, xConfig, yConfig, rank, grouping)
-    }
+
+    return normalised;
   },
 
   @computed('model', 'normalisedGraphData')

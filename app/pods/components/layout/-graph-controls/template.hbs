@@ -1,10 +1,13 @@
 {{yield (hash
   control-row=(component "layout/-graph-controls/row" (hash
     label=(component "layout/-graph-controls/label-block" label-class=styles.label class=styles.label-block)
+    showLines=(component "input/-toggle" config.lines class=styles.show-lines)
     timeRange=(component "input/-range" config.time class=styles.time)
     sizeRange=(component "input/-range" config.size class=styles.size)
+    ghcFocus=(component "input/-drop-down" config.ghc class=styles.drop-down)
     fileTypes=(component "input/-drop-down" config.fileType class=styles.drop-down)
     scripts=(component "input/-drop-down" config.script class=styles.drop-down)
+
     packages=(component "input/-drop-down" config.packages class=styles.drop-down))
       class=styles.row)
   )

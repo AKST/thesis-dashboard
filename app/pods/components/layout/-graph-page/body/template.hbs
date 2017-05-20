@@ -14,6 +14,7 @@
   {{/if}}
   {{#if filtered.hasData}}
     {{component graph-component-name local-class="graph"
+        showLines=showLines
         selectNode=(action (mut selectedResultId))
         lines=filtered.lines
         bounds=filtered.bounds

@@ -24,6 +24,7 @@ export default Component.extend({
   lines: null,
   bounds: null,
   entries: null,
+  showLines: true,
   selectNode: null,
   colorPicker: null,
 
@@ -151,6 +152,7 @@ export default Component.extend({
       .attr('class', styles.axis_label)
       .text(bounds.y.description)
 
+    if (! this.get('showLines')) return
 
     const lineFunction = line()
       .x(it => nanFallback(xScale(it.x), 0))

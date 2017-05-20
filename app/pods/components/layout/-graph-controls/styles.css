@@ -40,6 +40,12 @@
   width: 100%;
 }
 
+.showLines {
+  box-sizing: border-box;
+  composes: item;
+  width: 100%;
+}
+
 .range {
   box-sizing: border-box;
   composes: item;
