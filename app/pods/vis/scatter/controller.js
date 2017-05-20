@@ -6,6 +6,7 @@ import injectService from 'ember-service/inject'
 import { rankSemver } from 'ui/utils/semver'
 import { toDataPoints } from 'ui/utils/graph-prep'
 
+
 export default Ember.Controller.extend({
   queryParams: {
     fileExtension: 'fext',
@@ -21,6 +22,7 @@ export default Ember.Controller.extend({
   ghcVersion: null,
   fileExtension: 'hi',
   packageFilter: null,
+  packageBlackList: null,
   selectedResultId: null,
 
   groupDescriber (groupId) {

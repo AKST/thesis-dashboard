@@ -6,6 +6,12 @@ import classes from './styles';
 import { pallet } from 'ui/utils/color';
 import { LinearRange } from 'ui/utils/math/range'
 
+
+function isBlackListed (blacklist, item) {
+  if (blacklist == null) return false
+  return blacklist.has(item.group.toString())
+}
+
 export default Ember.Component.extend({
   localClassNames: ['root'],
   store: injectService('store'),
@@ -16,7 +22,10 @@ export default Ember.Component.extend({
   selectedBounds: null,
   currentScript: null,
   groupDescriber: null,
+  visible: null,
   filtered: null,
+  packageBlackList: null,
+  togglePackageVisblity: null,
 
   init (...args) {
     this._super(...args)
@@ -27,17 +36,21 @@ export default Ember.Component.extend({
     return this.get('colors')[id]
   },
 
-  @computed('filtered', 'groupDescriber')
-  legend (filtered, groupDescriber) {
+  @computed('filtered', 'groupDescriber', 'packageBlackList')
+  legend (filtered, groupDescriber, packageBlackList) {
     if (groupDescriber == null) return null
     const collected = new Set();
     const legend = [];
     for (const item of filtered.entries) {
       if (collected.has(item.group)) continue;
       const description = this.groupDescriber(item.group)
+      const _classes = isBlackListed(packageBlackList, item)
+        ? classes.legendDisabled
+        : classes.legendEnabled
+
       const style = Ember.String.htmlSafe(
         `--legend-color: ${this.colorPicker(item.group)}`)
-      legend.push({ description, style });
+      legend.push({ description, style, classes: _classes, group: item.group });
       collected.add(item.group);
     }
     return legend
@@ -49,7 +62,7 @@ export default Ember.Component.extend({
   },
 
   @computed('filtered')
-  showYBounds (filtered) {
+  slahowYBounds (filtered) {
     return filtered.bounds.y instanceof LinearRange;
   },
 

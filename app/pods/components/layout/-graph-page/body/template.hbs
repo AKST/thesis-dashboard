@@ -4,7 +4,10 @@
       <h3 local-class="legend-title">Legend</h3>
       <div local-class="legend-list">
         {{#each legend as |it|}}
-          <div local-class="legend-it" style={{it.style}}>
+          <div class="{{it.classes}}"
+               local-class="legend-it"
+               style={{it.style}}
+               onClick={{action togglePackageVisblity it.group}}>
             <div local-class="legend-it-title">{{it.description}}</div>
             <div local-class="legend-it-color">&nbsp;</div>
           </div>

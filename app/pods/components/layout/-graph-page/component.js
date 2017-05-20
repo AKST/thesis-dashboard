@@ -2,8 +2,11 @@ import Component from 'ember-component'
 import get from 'ember-metal/get'
 import computed, { observes } from 'ember-computed-decorators'
 
+import Immutable from 'npm:immutable'
+
 import classes from './styles'
 import { getRange } from 'ui/utils/semver/ghc'
+
 
 const toOptions = (labelKey, valueKey) => (item) => {
   const value = get(item, valueKey)
@@ -28,6 +31,7 @@ export default Component.extend({
   packageFilter: null,
   fileExtension: null,
   scriptHash: null,
+  togglePackage: null,
 
   ////////////////////////////////////////////////////////////////////////////////////////
   // FILTER VALUES                                                                      //
@@ -35,10 +39,16 @@ export default Component.extend({
 
   filteredX: null,
   filteredY: null,
+  packageBlackList: null,
 
   ////////////////////////////////////////////////////////////////////////////////////////
   // OBSERVERS                                                                          //
   ////////////////////////////////////////////////////////////////////////////////////////
+
+  init (...args) {
+    this._super(...args);
+    this.set('packageBlackList', Immutable.Set());
+  },
 
   /*
    * When `model.results` resets the filters for the graph
@@ -54,7 +64,6 @@ export default Component.extend({
   ////////////////////////////////////////////////////////////////////////////////////////
   // COMPUTED PROPERTIES                                                                //
   ////////////////////////////////////////////////////////////////////////////////////////
-
 
   @computed('_data.results', 'filteredX', 'filteredY')
   _filtered (items, timeFilter, sizeFilter) {
@@ -83,11 +92,11 @@ export default Component.extend({
   /*
    * Configuration for the package selector
    */
-  @computed('_data.packages')
-  packageSelect (packages) {
+  @computed('_data.packages', 'packageBlackList')
+  packageSelect (packages, blacklist) {
     // default option should be at the start
     const options = [{ value: null, label: 'None' }]
-      .concat(packages
+      .concat(packages.filter(it => ! blacklist.has(it.get('id')))
         .sortBy('name')
         .map(toOptions('name', 'id')))
     const update = ({ value }) => this.set('packageFilter', value)
@@ -174,6 +183,16 @@ export default Component.extend({
   @computed('scriptHash', '_data.scripts')
   currentScript (hash, scripts) {
     return scripts.findBy('id', hash)
+  },
+
+  actions: {
+    togglePackageVisblity (packageId) {
+      const blacklist = this.get('packageBlackList')
+      const update = blacklist.has(packageId)
+        ? blacklist.delete(packageId)
+        : blacklist.add(packageId)
+      this.set('packageBlackList', update);
+    },
   },
 }).reopenClass({
   positionalParams: ['_data'],

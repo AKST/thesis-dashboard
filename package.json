@@ -51,6 +51,7 @@
   },
   "private": true,
   "dependencies": {
+    "immutable": "^3.8.1",
     "uuid": "^3.0.1"
   }
 }

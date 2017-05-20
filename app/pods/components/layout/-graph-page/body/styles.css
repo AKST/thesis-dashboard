@@ -49,10 +49,18 @@
 .legend-it {
   display: flex;
   justify-content: space-between;
+  cursor: pointer;
 
   & + .legend-it {
     margin-top: 0.3em;
   }
+}
+
+.legendEnabled {
+}
+
+.legendDisabled {
+  opacity: 0.5;
 }
 
 .legend-it-color {
@@ -154,6 +162,7 @@
   font-family: --ff-mono;
   font-size: 3em;
 }
+
 
 .tags {
   padding-left: 1em;
