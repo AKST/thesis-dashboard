@@ -136,7 +136,7 @@ export default Component.extend({
 
     // generate the label for X Axis
     const xTitleX = (width / 2) + (margin * .5)
-    const xTitleY = height + (margin * 1.75)
+    const xTitleY = height + (margin * 1.8)
     chart.append('text')
       .attr('text-anchor', 'middle')
       .attr('transform', `translate(${xTitleX}, ${xTitleY})`)

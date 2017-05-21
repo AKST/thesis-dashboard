@@ -1,10 +1,7 @@
 @value dimensions from 'ui/styles/dimensions';
-@value typography: 'ui/styles/typography';
 @value colors: 'ui/styles/colors';
 @value graphs: 'ui/styles/reuse/graphs';
 
-
-@value --ff-mono from typography;
 @value --base-fg from colors;
 @value line-width, margin from graphs;
 

@@ -35,7 +35,7 @@
 
 .x_axis > :global(.tick) > text {
   font-size: 0.6rem;
-  transform: rotate(-7deg) translateY(5px);
+  transform: rotate(-5deg) translateY(5px);
   text-anchor: end;
 }
 

@@ -29,12 +29,20 @@ export default Ember.Controller.extend({
     return this.store.peekRecord('package', groupId).get('name')
   },
 
+  @computed('fileExtension')
+  xConfig (fileType) {
+    return {
+      source: 'fileSize',
+      description: `Summed size of "${fileType}" files (bytes)`,
+    }
+  },
+
   /*
    * Only needs to be calculate once data is downloaded.
    */
   @computed('model.results', 'packageFilter', 'ghcVersion')
   normalisedGraphData (items, packageId, ghcVersion) {
-    const xConfig = { source: 'fileSize', description: 'File Size (bytes)' }
+    const xConfig = this.get('xConfig')
     const yConfig = { source: 'averageTime', description: 'Avg Time (seconds)' }
     const rank = it => rankSemver(get(it, 'ghcVersion'))
     const grouping = it => it.belongsTo('package').id()
