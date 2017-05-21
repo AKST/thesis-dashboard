@@ -40,10 +40,15 @@
   width: 100%;
 }
 
-.showLines {
+.show-lines {
   box-sizing: border-box;
   composes: item;
   width: 100%;
+  & > button {
+    padding: 0.75em 0;
+    min-height: 100%;
+    margin: 0;
+  }
 }
 
 .range {
