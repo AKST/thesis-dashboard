@@ -1,4 +1,4 @@
-@value dimensions from 'ui/styles/dimensions';
+@value dimensions: 'ui/styles/dimensions';
 @value colors: 'ui/styles/colors';
 @value graphs: 'ui/styles/reuse/graphs';
 
@@ -25,6 +25,10 @@
   transform: translateY(6px);
 }
 
+.x_axis > :global(.domain + .tick > text) {
+  transform: translateY(6px) translateX(2.5ex);
+}
+
 .y_axis > :global(.domain) {
   stroke-width: 0;
 }
@@ -33,6 +37,11 @@
   stroke-width: 1px;
   stroke-dasharray: 2,2;
   opacity: 0.5;
+}
+
+.y_axis > :global(.tick > text) {
+  font-size: 1rem;
+  transform: translateX(-0.5em);
 }
 
 .line {

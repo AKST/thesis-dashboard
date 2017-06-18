@@ -35,7 +35,7 @@
 
 .x_axis > :global(.tick) > text {
   font-size: 0.6rem;
-  transform: rotate(-5deg) translateY(5px);
+  transform: rotate(-10deg) translateY(5px);
   text-anchor: end;
 }
 
@@ -50,4 +50,5 @@
 .line {
   composes: line from graphs;
   stroke-width: 3px;
+  opacity: 0.4;
 }
